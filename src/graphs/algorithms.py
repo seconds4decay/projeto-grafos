@@ -5,11 +5,15 @@ from collections import deque
 def dijkstra(lista_adjacencia, v_inicio):
 
     # Definição dos parâmetros:
-    #   vertices -> lista de vértices
-    #   arestas -> lista de arestas onde cada elemento é uma lista organizada da seguinte forma: [vertice de origem, vertice de destino, peso]
+    #   lista_adjacencia -> lista de adjacencia do grafo: vértice -> [[vértice adjacente, peso]]
     #   v_inicio -> vértice de início que será utilizado como referência para o começo do algoritmo
 
-    # cria-se uma lista de adjacencia (dicionário)
+    # checagem para pesos negativos no grafo
+    for vertice in lista_adjacencia.keys():
+        for v_adjacente, peso in lista_adjacencia[vertice]:
+            if peso < 0:
+                return -1
+
     # o resultado sai no seguinte formato: vértice -> distância mínima
     resultado = {}
     
@@ -45,6 +49,87 @@ def dijkstra(lista_adjacencia, v_inicio):
 
     # retorna o resultado
     return resultado
+
+
+def dijkstra_path(lista_adjacencia, v_inicio, v_destino):
+
+    # Definição dos parâmetros:
+    #   lista_adjacencia -> lista de adjacencia do grafo: vértice -> [[vértice adjacente, peso]]
+    #   v_inicio -> vértice de início que será utilizado como referência para o começo do algoritmo
+    #   v_destino -> vértice de destino do caminho que será gerado
+
+    # checagem para pesos negativos no grafo
+    for vertice in lista_adjacencia.keys():
+        for v_adjacente, peso in lista_adjacencia[vertice]:
+            if peso < 0:
+                return -1
+
+    # o resultado sai no seguinte formato: vértice -> distância mínima
+    resultado = {}
+
+    # cria-se um dicionário que irá guardar os antecessores adjacentes do caminho: vértice -> vértice antecessor
+    antecessor = {}
+    
+    # define como "infinito" (no caso, é só um valor muito grande) para os vértices, no momento, inalcançáveis
+    for vertice in lista_adjacencia.keys():
+        resultado[vertice] = sys.maxsize
+        antecessor[vertice] = None
+
+    # o vértice de início sempre tem peso 0
+    resultado[v_inicio] = 0
+
+    # o antecessor do vértice de início é ele mesmo
+    antecessor[v_inicio] = v_inicio
+
+    # o min heap (fila de prioridade) serve para guardar os vértices e a distância atual para alcança-los
+    # a fila de prioridade vai priorizar as menores distâncias durante a análise, evitando desperdício de tempo
+    min_heap = []
+
+    # carrega a fila com o vértice inicial
+    heapq.heappush(min_heap, [0, v_inicio])
+
+    # enquanto min_heap não for vazio
+    while min_heap:
+
+        #retira e obtém o valor com menor distância presente na fila de prioridade
+        distancia, vertice = heapq.heappop(min_heap)
+
+        # ocorre a verificação de cada vértice adjacente ao vértice analisado
+        for v_adjacente, peso in lista_adjacencia[vertice]:
+
+            # caso o a distância atual + peso para chegar no vértice adjacente é menor que a distância atual, o valor é atualizado
+            if (distancia + peso) < resultado[v_adjacente]:
+                resultado[v_adjacente] = distancia + peso
+
+                # o antecessor do vértice adjacente atualizado é modificado
+                antecessor[v_adjacente] = vertice
+                # além disso, o a nova distância atual e o vértice adjacente é carregado na fila de prioridade
+                heapq.heappush(min_heap, [distancia + peso, v_adjacente])
+
+    # caso não exista um caminho para chegar o vértice de destino partindo do vértice de início, o algoritmo retorna "infinito" e -1
+    if (resultado[vertice] == sys.maxsize or antecessor[v_destino] == None):
+        return resultado[vertice], -1
+    
+    # cria-se uma fila para gerar o caminho do vértice de início até o vértice de destino
+    caminho = deque()
+
+    # adicona o vértice de destino ao final da fila
+    caminho.appendleft(v_destino)
+
+    # cria-se uma variável para definir uma condição de parada
+    atual = v_destino
+
+    # enquanto atual for diferente do início
+    while atual != v_inicio:
+        # o antecessor do atual é adicionado à fila
+        caminho.appendleft(antecessor[atual])
+
+        # o atual é atualizado para ser seu antecessor
+        atual = antecessor[atual]
+
+
+    # retorna o custo e o caminho mais curto para chegar ao vértice de destino partindo do vértice de início
+    return resultado[v_destino], caminho
 
 
 def bellman_ford(vertices, arestas, v_inicio):
@@ -104,7 +189,7 @@ def bellman_ford(vertices, arestas, v_inicio):
 def bfs(lista_adjacencia, v_inicio):
 
     # Definição dos parâmetros:
-    #   lista_adjacencia -> lista de adjacencia do grafo
+    #   lista_adjacencia -> lista de adjacencia do grafo: vértice -> [[vértice adjacente, peso]]
     #   v_inicio -> vértice de início que será utilizado como referência para o começo do algoritmo
 
 
@@ -114,7 +199,7 @@ def bfs(lista_adjacencia, v_inicio):
     # cria-se e popula-se um dicionário (vertice -> estado de visitação) para determinar se um vertice já foi ou não visitado pelo algoritmo
     visitado = {}
 
-    vertices = list(lista_adjacencia.keys())
+    vertices = lista_adjacencia.keys()
     for vertice in vertices:
         visitado[vertice] = False
 
@@ -151,7 +236,7 @@ def bfs(lista_adjacencia, v_inicio):
 def dfs(lista_adjacencia, v_inicio):
 
     # Definição dos parâmetros:
-    #   lista_adjacencia -> lista de adjacencia do grafo
+    #   lista_adjacencia -> lista de adjacencia do grafo: vértice -> [[vértice adjacente, peso]]
     #   v_inicio -> vértice de início que será utilizado como referência para o começo do algoritmo
 
     # o resultado do algoritmo será uma lista com a sequência de vertices visitados pelo bfs
@@ -160,7 +245,7 @@ def dfs(lista_adjacencia, v_inicio):
     # cria-se e popula-se um dicionário (vertice -> estado de visitação) para determinar se um vertice já foi ou não visitado pelo algoritmo
     visitado = {}
 
-    vertices = list(lista_adjacencia.keys())
+    vertices = lista_adjacencia.keys()
     for vertice in vertices:
         visitado[vertice] = False
 
@@ -180,7 +265,7 @@ def dfs_aux(vertice, visitado, lista_adjacencia, resultado):
     # Definição dos parâmetros:
     #   vertice -> vértice que está sendo visitado pelo algoritmo
     #   visitado -> dicionário com os estados de visitação dos vértices
-    #   lista_adjacencia -> lista de adjacencia do grafo
+    #   lista_adjacencia -> lista de adjacencia do grafo: vértice -> [[vértice adjacente, peso]]
     #   resultado -> lista com a sequência de vértices visitados pelo dfs
 
     # o vértice é marcado como visitado pelo algoritmo e adicionado ao resultado
