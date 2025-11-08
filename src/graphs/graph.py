@@ -1,5 +1,6 @@
 import csv
 from collections import defaultdict
+import os
 
 # Função que lê um arquivo CSV contendo as arestas
 # e constrói uma lista de adjacência representando o grafo.
@@ -29,11 +30,36 @@ def carregar_lista_adjacencia(caminho_csv: str) -> dict[str, list[tuple[str, flo
     # Converte o defaultdict em dict normal antes de retornar
     return dict(grafo)
 
+def csv_para_lista(caminho_arquivo: str):
+    # Lista para armazenar o resultado
+    resultado = []
+
+    # Abre o arquivo CSV no modo leitura
+    with open(caminho_arquivo, newline="", encoding="utf-8") as f:
+        leitor = csv.DictReader(f)
+
+        # Percorre cada linha do CSV
+        for linha in leitor:
+            origem = linha["bairro_origem"].strip()
+            destino = linha["bairro_destino"].strip()
+            logradouro = linha["logradouro"].strip()
+            peso = float(linha["peso"])
+
+            # Armazena um objeto do tipo dicionario com as informações de cada aresta
+            resultado.append({
+                "vertice_origem": origem,
+                "vertice_destino": destino,
+                "aresta": logradouro,
+                "peso": peso
+            })
+
+    return resultado
 
 # Bloco principal — só é executado se o arquivo for rodado diretamente (não importado)
 if __name__ == "__main__":
     # Caminho relativo até o CSV de arestas (ajuste conforme estrutura do projeto)
-    caminho_csv = "../../data/adjacencias_bairros.csv"
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    caminho_csv = os.path.join(BASE_DIR, "../../data/adjacencias_bairros.csv")
 
     try:
         # Carrega a lista de adjacência a partir do arquivo CSV

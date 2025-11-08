@@ -1,7 +1,7 @@
 import heapq
 import sys
 
-def dijkstra(vertices, arestas, v_inicio):
+def dijkstra(lista_adjacencia, v_inicio):
 
     # Definição dos parâmetros:
     #   vertices -> lista de vértices
@@ -9,21 +9,11 @@ def dijkstra(vertices, arestas, v_inicio):
     #   v_inicio -> vértice de início que será utilizado como referência para o começo do algoritmo
 
     # cria-se uma lista de adjacencia (dicionário)
-    lista_adjacencia = {}
-
-    # deifine as chaves do dicionario como os vértices
-    for vertice in vertices:
-        lista_adjacencia[vertice] = []
-    
-    # para cada vértice (chave do dicionário), um valor no formato (vertice destino, peso)
-    for v_origem, v_destino, peso in arestas:
-        lista_adjacencia[v_origem].append([v_destino, peso])
-
     # o resultado sai no seguinte formato: vértice -> distância mínima
     resultado = {}
     
     # define como "infinito" (no caso, é só um valor muito grande) para os vértices, no momento, inalcançáveis
-    for vertice in vertices:
+    for vertice in lista_adjacencia.keys():
         resultado[vertice] = sys.maxsize
 
     # o vértice de início sempre tem peso 0
@@ -50,7 +40,7 @@ def dijkstra(vertices, arestas, v_inicio):
                 resultado[v_adjacente] = distancia + peso
 
                 # além disso, o a nova distância atual e o vértice adjacente é carregado na fila de prioridade
-                heapq.heappush([distancia + peso, v_adjacente])
+                heapq.heappush(min_heap, [distancia + peso, v_adjacente])
 
     # retorna o resultado
     return resultado
