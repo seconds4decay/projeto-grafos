@@ -1,14 +1,41 @@
 import json
 import os
 from graphs.graph import carregar_lista_adjacencia
+from graphs.algorithms import dijkstra_path
 import pandas as pd
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-caminho_csv = os.path.join(BASE_DIR, "../data/adjacencias_bairros.csv")
+
+caminho_graus = os.path.join(BASE_DIR, "../out/graus.csv")
+
 caminho_bairros_unique = os.path.join(BASE_DIR, "../data/bairros_unique.csv")
 caminho_recife_global = os.path.join(BASE_DIR, "../out/recife_global.json")
 caminho_microrregioes = os.path.join(BASE_DIR, "../out/microrregioes.json")
 ego_bairro_csv = os.path.join(BASE_DIR, "../out/ego_bairro.csv")
+
+caminho_enderecos_csv = os.path.join(BASE_DIR, "../data/enderecos.csv")
+distancias_enderecos_csv = os.path.join(BASE_DIR, "../out/distancias_enderecos.csv")
+percurso_nova_descoberta_setubal = os.path.join(BASE_DIR, "../out/percurso_nova_descoberta_setubal.json")
+
+def gerar_csv_graus(lista_adjacencia):
+    graus = {}
+    graus_values = []
+
+    resultado = []
+
+    for bairro, vizinhos in lista_adjacencia.items():
+        grau = len(vizinhos)
+        graus[bairro] = grau
+        graus_values.append(grau)
+
+        resultado.append({
+            "bairro": bairro,   
+            "grau": grau
+        })
+
+    with open(caminho_graus, "w", encoding="utf-8") as f:
+        pd.DataFrame(resultado).to_csv(f, index=False)
+   
 
 def metricas_globais(lista_adjacencia):
     # Ordem (nº de vértices)
@@ -77,7 +104,7 @@ def metricas_globais_microrregioes(lista_adjacencia):
 
     return resultados
 
-def ego_network_metrics(lista_adjacencia):    
+def ego_network_metricas(lista_adjacencia):
     results = []
 
     for bairro in lista_adjacencia.keys():
@@ -107,9 +134,7 @@ def ego_network_metrics(lista_adjacencia):
                 # armazena aresta se v também está na ego
                 if v in ego_vertices:
 
-                    # como o grafo é não orientado, ordenamos a tupla
-                    aresta = tuple(sorted([u, v]))
-                    ego_arestas.add(aresta)
+                    ego_arestas.add((u, v))
 
         tamanho_ego = len(ego_arestas)
 
@@ -133,10 +158,53 @@ def ego_network_metrics(lista_adjacencia):
     df.to_csv(ego_bairro_csv, index=False)
     return df
 
+def deque_to_string(deque_obj):
+    list_obj = list(deque_obj)
 
+    result = ""
+    
+    for i in list_obj:
+        result += str(i)
+        if i != list_obj[-1]:
+            result += " -> "
+
+    return result
+
+def calcular_peso_caminho_enderecos(lista_adjacencia):
+    df_enderecos = pd.read_csv(caminho_enderecos_csv)
+
+    resultado = []
+
+
+    for _, row in df_enderecos.iterrows():
+        endereco_X = row["X"]
+        endereco_Y = row["Y"]
+        bairro_X = row["bairro_X"].strip().lower()
+        bairro_Y = row["bairro_Y"].strip().lower()
+
+        # Calcula o peso do caminho entre os bairros usando Dijkstra
+        peso, caminho = dijkstra_path(lista_adjacencia, bairro_X, bairro_Y)
+
+        if bairro_X == "nova descoberta" and bairro_Y == "setubal":
+            with open(percurso_nova_descoberta_setubal, "w", encoding="utf-8") as f:
+                json.dump({
+                    "caminho": deque_to_string(caminho)
+                }, f, indent=4, ensure_ascii=False)
+
+        resultado.append({
+            "X": endereco_X,
+            "Y": endereco_Y,
+            "bairro_X": bairro_X,
+            "bairro_Y": bairro_Y,
+            "custo": peso,
+            "caminho": deque_to_string(caminho)
+        })
+
+    with open(distancias_enderecos_csv, "w", encoding="utf-8") as f:
+        pd.DataFrame(resultado).to_csv(f, index=False)
 
 if __name__ == "__main__":
-    lista_adjacencia = carregar_lista_adjacencia(caminho_csv)
+    lista_adjacencia = carregar_lista_adjacencia()
 
     resultado_global = metricas_globais(lista_adjacencia)
 
@@ -148,7 +216,11 @@ if __name__ == "__main__":
     print("Métricas por microrregião:")
     print(resultado_metricas_microrregioes)
 
-    ego_network_metrics(lista_adjacencia)
+    ego_network_metricas(lista_adjacencia)
+
+    calcular_peso_caminho_enderecos(lista_adjacencia)
+
+    gerar_csv_graus(lista_adjacencia)
     
     
 

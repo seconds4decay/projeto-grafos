@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 750px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "rgb(230, 25, 0)", "id": "recife", "label": "recife", "shape": "dot"}, {"color": "rgb(26, 229, 0)", "id": "santo amaro", "label": "santo amaro", "shape": "dot"}, {"color": "rgb(128, 127, 0)", "id": "santo antonio", "label": "santo antonio", "shape": "dot"}, {"color": "rgb(179, 76, 0)", "id": "soledade", "label": "soledade", "shape": "dot"}, {"color": "rgb(26, 229, 0)", "id": "boa vista", "label": "boa vista", "shape": "dot"}, {"color": "rgb(128, 127, 0)", "id": "espinheiro", "label": "espinheiro", "shape": "dot"}, {"color": "rgb(179, 76, 0)", "id": "torreao", "label": "torreao", "shape": "dot"}, {"color": "rgb(77, 178, 0)", "id": "campo grande", "label": "campo grande", "shape": "dot"}, {"color": "rgb(153, 102, 0)", "id": "coelhos", "label": "coelhos", "shape": "dot"}, {"color": "rgb(204, 51, 0)", "id": "gra\u00e7as", "label": "gra\u00e7as", "shape": "dot"}, {"color": "rgb(153, 102, 0)", "id": "derby", "label": "derby", "shape": "dot"}, {"color": "rgb(128, 127, 0)", "id": "paissandu", "label": "paissandu", "shape": "dot"}, {"color": "rgb(153, 102, 0)", "id": "ilha do leite", "label": "ilha do leite", "shape": "dot"}, {"color": "rgb(204, 51, 0)", "id": "cabanga", "label": "cabanga", "shape": "dot"}, {"color": "rgb(26, 229, 0)", "id": "afogados", "label": "afogados", "shape": "dot"}, {"color": "rgb(153, 102, 0)", "id": "sao jose", "label": "sao jose", "shape": "dot"}, {"color": "rgb(153, 102, 0)", "id": "pina", "label": "pina", "shape": "dot"}, {"color": "rgb(128, 127, 0)", "id": "ilha joana bezerra", "label": "ilha joana bezerra", "shape": "dot"}, {"color": "rgb(102, 153, 0)", "id": "madalena", "label": "madalena", "shape": "dot"}, {"color": "rgb(128, 127, 0)", "id": "ilha do retiro", "label": "ilha do retiro", "shape": "dot"}, {"color": "rgb(77, 178, 0)", "id": "arruda", "label": "arruda", "shape": "dot"}, {"color": "rgb(77, 178, 0)", "id": "agua fria", "label": "agua fria", "shape": "dot"}, {"color": "rgb(153, 102, 0)", "id": "campina do barreto", "label": "campina do barreto", "shape": "dot"}, {"color": "rgb(204, 51, 0)", "id": "peixinhos", "label": "peixinhos", "shape": "dot"}, {"color": "rgb(128, 127, 0)", "id": "ponto de parada", "label": "ponto de parada", "shape": "dot"}, {"color": "rgb(51, 204, 0)", "id": "tamarineira", "label": "tamarineira", "shape": "dot"}, {"color": "rgb(153, 102, 0)", "id": "mangabeira", "label": "mangabeira", "shape": "dot"}, {"color": "rgb(153, 102, 0)", "id": "bomba do hemeterio", "label": "bomba do hemeterio", "shape": "dot"}, {"color": "rgb(204, 51, 0)", "id": "cajueiro", "label": "cajueiro", "shape": "dot"}, {"color": "rgb(179, 76, 0)", "id": "fundao", "label": "fundao", "shape": "dot"}, {"color": "rgb(204, 51, 0)", "id": "hipodromo", "label": "hipodromo", "shape": "dot"}, {"color": "rgb(77, 178, 0)", "id": "encruzilhada", "label": "encruzilhada", "shape": "dot"}, {"color": "rgb(153, 102, 0)", "id": "rosarinho", "label": "rosarinho", "shape": "dot"}, {"color": "rgb(179, 76, 0)", "id": "aflitos", "label": "aflitos", "shape": "dot"}, {"color": "rgb(77, 178, 0)", "id": "gracas", "label": "gracas", "shape": "dot"}, {"color": "rgb(128, 127, 0)", "id": "linha do tiro", "label": "linha do tiro", "shape": "dot"}, {"color": "rgb(179, 76, 0)", "id": "beberibe", "label": "beberibe", "shape": "dot"}, {"color": "rgb(179, 76, 0)", "id": "porto da madeira", "label": "porto da madeira", "shape": "dot"}, {"color": "rgb(128, 127, 0)", "id": "alto santa teresinha", "label": "alto santa teresinha", "shape": "dot"}, {"color": "rgb(128, 127, 0)", "id": "alto jose bonifacio", "label": "alto jose bonifacio", "shape": "dot"}, {"color": "rgb(102, 153, 0)", "id": "alto jose do pinho", "label": "alto jose do pinho", "shape": "dot"}, {"color": "rgb(153, 102, 0)", "id": "morro da conceicao", "label": "morro da conceicao", "shape": "dot"}, {"color": "rgb(179, 76, 0)", "id": "dois unidos", "label": "dois unidos", "shape": "dot"}, {"color": "rgb(153, 102, 0)", "id": "vasco da gama", "label": "vasco da gama", "shape": "dot"}, {"color": "rgb(0, 255, 0)", "id": "casa amarela", "label": "casa amarela", "shape": "dot"}, {"color": "rgb(153, 102, 0)", "id": "alto do mandu", "label": "alto do mandu", "shape": "dot"}, {"color": "rgb(153, 102, 0)", "id": "monteiro", "label": "monteiro", "shape": "dot"}, {"color": "rgb(179, 76, 0)", "id": "poco da panela", "label": "poco da panela", "shape": "dot"}, {"color": "rgb(179, 76, 0)", "id": "casa forte", "label": "casa forte", "shape": "dot"}, {"color": "rgb(153, 102, 0)", "id": "parnamirim", "label": "parnamirim", "shape": "dot"}, {"color": "rgb(102, 153, 0)", "id": "apipucos", "label": "apipucos", "shape": "dot"}, {"color": "rgb(153, 102, 0)", "id": "dois irmaos", "label": "dois irmaos", "shape": "dot"}, {"color": "rgb(128, 127, 0)", "id": "santana", "label": "santana", "shape": "dot"}, {"color": "rgb(230, 25, 0)", "id": "sitio dos pintos", "label": "sitio dos pintos", "shape": "dot"}, {"color": "rgb(179, 76, 0)", "id": "jaqueira", "label": "jaqueira", "shape": "dot"}, {"color": "rgb(153, 102, 0)", "id": "brejo da guabiraba", "label": "brejo da guabiraba", "shape": "dot"}, {"color": "rgb(179, 76, 0)", "id": "guabiraba", "label": "guabiraba", "shape": "dot"}, {"color": "rgb(179, 76, 0)", "id": "passarinho", "label": "passarinho", "shape": "dot"}, {"color": "rgb(102, 153, 0)", "id": "brejo de beberibe", "label": "brejo de beberibe", "shape": "dot"}, {"color": "rgb(102, 153, 0)", "id": "nova descoberta", "label": "nova descoberta", "shape": "dot"}, {"color": "rgb(153, 102, 0)", "id": "corrego do jenipapo", "label": "corrego do jenipapo", "shape": "dot"}, {"color": "rgb(179, 76, 0)", "id": "macaxeira", "label": "macaxeira", "shape": "dot"}, {"color": "rgb(255, 0, 0)", "id": "pau-ferro", "label": "pau-ferro", "shape": "dot"}, {"color": "rgb(51, 204, 0)", "id": "cordeiro", "label": "cordeiro", "shape": "dot"}, {"color": "rgb(153, 102, 0)", "id": "engenho do meio", "label": "engenho do meio", "shape": "dot"}, {"color": "rgb(77, 178, 0)", "id": "iputinga", "label": "iputinga", "shape": "dot"}, {"color": "rgb(128, 127, 0)", "id": "torre", "label": "torre", "shape": "dot"}, {"color": "rgb(179, 76, 0)", "id": "zumbi", "label": "zumbi", "shape": "dot"}, {"color": "rgb(102, 153, 0)", "id": "prado", "label": "prado", "shape": "dot"}, {"color": "rgb(26, 229, 0)", "id": "san martin", "label": "san martin", "shape": "dot"}, {"color": "rgb(204, 51, 0)", "id": "torroes", "label": "torroes", "shape": "dot"}, {"color": "rgb(179, 76, 0)", "id": "cidade universitaria", "label": "cidade universitaria", "shape": "dot"}, {"color": "rgb(179, 76, 0)", "id": "varzea", "label": "varzea", "shape": "dot"}, {"color": "rgb(153, 102, 0)", "id": "caxanga", "label": "caxanga", "shape": "dot"}, {"color": "rgb(255, 0, 0)", "id": "po\u00e7o", "label": "po\u00e7o", "shape": "dot"}, {"color": "rgb(179, 76, 0)", "id": "bongi", "label": "bongi", "shape": "dot"}, {"color": "rgb(255, 0, 0)", "id": "parnamirin", "label": "parnamirin", "shape": "dot"}, {"color": "rgb(77, 178, 0)", "id": "curado", "label": "curado", "shape": "dot"}, {"color": "rgb(153, 102, 0)", "id": "mustardinha", "label": "mustardinha", "shape": "dot"}, {"color": "rgb(255, 0, 0)", "id": "s\u00e3o jose", "label": "s\u00e3o jose", "shape": "dot"}, {"color": "rgb(102, 153, 0)", "id": "imbiribeira", "label": "imbiribeira", "shape": "dot"}, {"color": "rgb(102, 153, 0)", "id": "jiquia", "label": "jiquia", "shape": "dot"}, {"color": "rgb(179, 76, 0)", "id": "mangueira", "label": "mangueira", "shape": "dot"}, {"color": "rgb(179, 76, 0)", "id": "est\u00e2ncia", "label": "est\u00e2ncia", "shape": "dot"}, {"color": "rgb(77, 178, 0)", "id": "areias", "label": "areias", "shape": "dot"}, {"color": "rgb(77, 178, 0)", "id": "ibura", "label": "ibura", "shape": "dot"}, {"color": "rgb(153, 102, 0)", "id": "barro", "label": "barro", "shape": "dot"}, {"color": "rgb(204, 51, 0)", "id": "cacote", "label": "cacote", "shape": "dot"}, {"color": "rgb(153, 102, 0)", "id": "jardim sao paulo", "label": "jardim sao paulo", "shape": "dot"}, {"color": "rgb(179, 76, 0)", "id": "ipsep", "label": "ipsep", "shape": "dot"}, {"color": "rgb(153, 102, 0)", "id": "tejipio", "label": "tejipio", "shape": "dot"}, {"color": "rgb(204, 51, 0)", "id": "cohab", "label": "cohab", "shape": "dot"}, {"color": "rgb(204, 51, 0)", "id": "coqueiral", "label": "coqueiral", "shape": "dot"}, {"color": "rgb(204, 51, 0)", "id": "toto", "label": "toto", "shape": "dot"}, {"color": "rgb(179, 76, 0)", "id": "sancho", "label": "sancho", "shape": "dot"}, {"color": "rgb(153, 102, 0)", "id": "boa viagem", "label": "boa viagem", "shape": "dot"}, {"color": "rgb(255, 0, 0)", "id": "jord\u00e3o", "label": "jord\u00e3o", "shape": "dot"}, {"color": "rgb(255, 0, 0)", "id": "setubal", "label": "setubal", "shape": "dot"}, {"color": "rgb(255, 0, 0)", "id": "brasilia teimosa", "label": "brasilia teimosa", "shape": "dot"}, {"color": "rgb(230, 25, 0)", "id": "jordao", "label": "jordao", "shape": "dot"}]);
+                  edges = new vis.DataSet([{"from": "recife", "to": "santo amaro", "value": 1.1}, {"from": "recife", "to": "santo antonio", "value": 2.0}, {"from": "santo amaro", "to": "santo antonio", "value": 2.5}, {"from": "santo amaro", "to": "soledade", "value": 2.4}, {"from": "santo amaro", "to": "boa vista", "value": 2.9}, {"from": "santo amaro", "to": "espinheiro", "value": 2.2}, {"from": "santo amaro", "to": "torreao", "value": 1.6}, {"from": "santo amaro", "to": "campo grande", "value": 2.0}, {"from": "santo antonio", "to": "sao jose", "value": 1.0}, {"from": "santo antonio", "to": "coelhos", "value": 1.4}, {"from": "santo antonio", "to": "boa vista", "value": 2.2}, {"from": "soledade", "to": "boa vista", "value": 0.55}, {"from": "soledade", "to": "gra\u00e7as", "value": 2.2}, {"from": "boa vista", "to": "coelhos", "value": 1.1}, {"from": "boa vista", "to": "espinheiro", "value": 1.8}, {"from": "boa vista", "to": "gra\u00e7as", "value": 1.1}, {"from": "boa vista", "to": "derby", "value": 0.5}, {"from": "boa vista", "to": "paissandu", "value": 1.2}, {"from": "boa vista", "to": "ilha do leite", "value": 1.1}, {"from": "espinheiro", "to": "encruzilhada", "value": 1.0}, {"from": "espinheiro", "to": "torreao", "value": 1.3}, {"from": "espinheiro", "to": "aflitos", "value": 0.7}, {"from": "espinheiro", "to": "gracas", "value": 1.3}, {"from": "torreao", "to": "campo grande", "value": 1.1}, {"from": "torreao", "to": "encruzilhada", "value": 1.1}, {"from": "campo grande", "to": "arruda", "value": 2.0}, {"from": "campo grande", "to": "peixinhos", "value": 1.0}, {"from": "campo grande", "to": "ponto de parada", "value": 1.1}, {"from": "campo grande", "to": "hipodromo", "value": 0.9}, {"from": "campo grande", "to": "encruzilhada", "value": 1.3}, {"from": "coelhos", "to": "ilha do leite", "value": 1.0}, {"from": "coelhos", "to": "ilha joana bezerra", "value": 1.5}, {"from": "coelhos", "to": "sao jose", "value": 1.9}, {"from": "gra\u00e7as", "to": "encruzilhada", "value": 1.8}, {"from": "derby", "to": "paissandu", "value": 1.6}, {"from": "derby", "to": "gracas", "value": 1.1}, {"from": "derby", "to": "ilha do retiro", "value": 1.4}, {"from": "derby", "to": "madalena", "value": 1.6}, {"from": "paissandu", "to": "ilha do leite", "value": 0.8}, {"from": "paissandu", "to": "madalena", "value": 2.2}, {"from": "paissandu", "to": "ilha do retiro", "value": 1.5}, {"from": "paissandu", "to": "ilha joana bezerra", "value": 2.1}, {"from": "ilha do leite", "to": "ilha joana bezerra", "value": 2.0}, {"from": "cabanga", "to": "afogados", "value": 2.2}, {"from": "cabanga", "to": "sao jose", "value": 2.4}, {"from": "cabanga", "to": "pina", "value": 2.2}, {"from": "afogados", "to": "ilha do retiro", "value": 1.8}, {"from": "afogados", "to": "prado", "value": 2.2}, {"from": "afogados", "to": "mustardinha", "value": 1.6}, {"from": "afogados", "to": "bongi", "value": 2.1}, {"from": "afogados", "to": "ilha joana bezerra", "value": 5.1}, {"from": "afogados", "to": "s\u00e3o jose", "value": 3.4}, {"from": "afogados", "to": "imbiribeira", "value": 3.7}, {"from": "afogados", "to": "jiquia", "value": 2.5}, {"from": "afogados", "to": "mangueira", "value": 1.6}, {"from": "sao jose", "to": "pina", "value": 4.3}, {"from": "sao jose", "to": "ilha joana bezerra", "value": 2.0}, {"from": "pina", "to": "boa viagem", "value": 4.5}, {"from": "pina", "to": "brasilia teimosa", "value": 2.7}, {"from": "pina", "to": "imbiribeira", "value": 5.5}, {"from": "ilha joana bezerra", "to": "ilha do retiro", "value": 2.2}, {"from": "madalena", "to": "ilha do retiro", "value": 1.7}, {"from": "madalena", "to": "zumbi", "value": 1.8}, {"from": "madalena", "to": "torre", "value": 1.0}, {"from": "madalena", "to": "prado", "value": 1.1}, {"from": "madalena", "to": "gracas", "value": 1.4}, {"from": "ilha do retiro", "to": "prado", "value": 1.1}, {"from": "arruda", "to": "agua fria", "value": 1.1}, {"from": "arruda", "to": "campina do barreto", "value": 1.9}, {"from": "arruda", "to": "peixinhos", "value": 2.4}, {"from": "arruda", "to": "ponto de parada", "value": 1.0}, {"from": "arruda", "to": "tamarineira", "value": 1.5}, {"from": "arruda", "to": "mangabeira", "value": 1.3}, {"from": "arruda", "to": "bomba do hemeterio", "value": 1.3}, {"from": "agua fria", "to": "campina do barreto", "value": 2.0}, {"from": "agua fria", "to": "linha do tiro", "value": 1.6}, {"from": "agua fria", "to": "beberibe", "value": 1.5}, {"from": "agua fria", "to": "porto da madeira", "value": 1.3}, {"from": "agua fria", "to": "fundao", "value": 1.3}, {"from": "agua fria", "to": "bomba do hemeterio", "value": 0.9}, {"from": "agua fria", "to": "alto santa teresinha", "value": 1.9}, {"from": "campina do barreto", "to": "cajueiro", "value": 0.9}, {"from": "campina do barreto", "to": "peixinhos", "value": 0.8}, {"from": "campina do barreto", "to": "fundao", "value": 1.1}, {"from": "ponto de parada", "to": "encruzilhada", "value": 1.3}, {"from": "ponto de parada", "to": "hipodromo", "value": 1.0}, {"from": "ponto de parada", "to": "rosarinho", "value": 0.95}, {"from": "ponto de parada", "to": "tamarineira", "value": 1.2}, {"from": "tamarineira", "to": "rosarinho", "value": 0.6}, {"from": "tamarineira", "to": "alto jose do pinho", "value": 1.2}, {"from": "tamarineira", "to": "mangabeira", "value": 1.0}, {"from": "tamarineira", "to": "casa amarela", "value": 2.4}, {"from": "tamarineira", "to": "gracas", "value": 2.6}, {"from": "tamarineira", "to": "jaqueira", "value": 1.0}, {"from": "tamarineira", "to": "parnamirim", "value": 1.4}, {"from": "mangabeira", "to": "bomba do hemeterio", "value": 1.5}, {"from": "mangabeira", "to": "alto jose do pinho", "value": 0.9}, {"from": "mangabeira", "to": "casa amarela", "value": 2.1}, {"from": "bomba do hemeterio", "to": "alto santa teresinha", "value": 1.3}, {"from": "bomba do hemeterio", "to": "alto jose do pinho", "value": 1.2}, {"from": "cajueiro", "to": "porto da madeira", "value": 1.0}, {"from": "cajueiro", "to": "fundao", "value": 0.75}, {"from": "fundao", "to": "porto da madeira", "value": 0.95}, {"from": "hipodromo", "to": "encruzilhada", "value": 0.6}, {"from": "encruzilhada", "to": "rosarinho", "value": 0.9}, {"from": "encruzilhada", "to": "aflitos", "value": 1.0}, {"from": "rosarinho", "to": "gracas", "value": 1.9}, {"from": "rosarinho", "to": "aflitos", "value": 1.9}, {"from": "aflitos", "to": "gracas", "value": 1.3}, {"from": "gracas", "to": "jaqueira", "value": 1.5}, {"from": "gracas", "to": "torre", "value": 1.4}, {"from": "linha do tiro", "to": "alto santa teresinha", "value": 1.5}, {"from": "linha do tiro", "to": "beberibe", "value": 1.4}, {"from": "linha do tiro", "to": "dois unidos", "value": 1.7}, {"from": "linha do tiro", "to": "alto jose bonifacio", "value": 1.5}, {"from": "linha do tiro", "to": "brejo de beberibe", "value": 2.4}, {"from": "beberibe", "to": "porto da madeira", "value": 1.0}, {"from": "beberibe", "to": "dois unidos", "value": 2.7}, {"from": "alto santa teresinha", "to": "alto jose bonifacio", "value": 1.1}, {"from": "alto santa teresinha", "to": "alto jose do pinho", "value": 1.0}, {"from": "alto santa teresinha", "to": "morro da conceicao", "value": 1.0}, {"from": "alto jose bonifacio", "to": "vasco da gama", "value": 1.2}, {"from": "alto jose bonifacio", "to": "morro da conceicao", "value": 0.9}, {"from": "alto jose bonifacio", "to": "alto jose do pinho", "value": 1.5}, {"from": "alto jose bonifacio", "to": "brejo de beberibe", "value": 2.3}, {"from": "alto jose do pinho", "to": "morro da conceicao", "value": 1.0}, {"from": "alto jose do pinho", "to": "casa amarela", "value": 1.6}, {"from": "morro da conceicao", "to": "vasco da gama", "value": 0.95}, {"from": "morro da conceicao", "to": "casa amarela", "value": 1.3}, {"from": "dois unidos", "to": "brejo de beberibe", "value": 1.5}, {"from": "dois unidos", "to": "passarinho", "value": 4.0}, {"from": "vasco da gama", "to": "casa amarela", "value": 1.5}, {"from": "vasco da gama", "to": "brejo de beberibe", "value": 2.4}, {"from": "vasco da gama", "to": "nova descoberta", "value": 2.3}, {"from": "casa amarela", "to": "alto do mandu", "value": 1.4}, {"from": "casa amarela", "to": "monteiro", "value": 1.6}, {"from": "casa amarela", "to": "poco da panela", "value": 1.5}, {"from": "casa amarela", "to": "casa forte", "value": 1.0}, {"from": "casa amarela", "to": "parnamirim", "value": 1.4}, {"from": "casa amarela", "to": "nova descoberta", "value": 4.2}, {"from": "alto do mandu", "to": "apipucos", "value": 1.3}, {"from": "alto do mandu", "to": "monteiro", "value": 0.75}, {"from": "alto do mandu", "to": "macaxeira", "value": 1.7}, {"from": "alto do mandu", "to": "nova descoberta", "value": 3.2}, {"from": "monteiro", "to": "apipucos", "value": 1.0}, {"from": "monteiro", "to": "poco da panela", "value": 1.5}, {"from": "monteiro", "to": "iputinga", "value": 1.6}, {"from": "poco da panela", "to": "casa forte", "value": 0.9}, {"from": "poco da panela", "to": "santana", "value": 1.4}, {"from": "casa forte", "to": "parnamirim", "value": 1.2}, {"from": "casa forte", "to": "santana", "value": 1.0}, {"from": "parnamirim", "to": "jaqueira", "value": 0.9}, {"from": "parnamirim", "to": "santana", "value": 1.2}, {"from": "apipucos", "to": "dois irmaos", "value": 1.5}, {"from": "apipucos", "to": "corrego do jenipapo", "value": 2.4}, {"from": "apipucos", "to": "macaxeira", "value": 1.7}, {"from": "apipucos", "to": "iputinga", "value": 4.4}, {"from": "apipucos", "to": "caxanga", "value": 3.8}, {"from": "dois irmaos", "to": "sitio dos pintos", "value": 2.0}, {"from": "dois irmaos", "to": "corrego do jenipapo", "value": 2.0}, {"from": "dois irmaos", "to": "guabiraba", "value": 12.0}, {"from": "dois irmaos", "to": "caxanga", "value": 2.4}, {"from": "santana", "to": "jaqueira", "value": 1.6}, {"from": "santana", "to": "cordeiro", "value": 2.2}, {"from": "santana", "to": "torre", "value": 2.0}, {"from": "sitio dos pintos", "to": "caxanga", "value": 2.8}, {"from": "brejo da guabiraba", "to": "guabiraba", "value": 8.7}, {"from": "brejo da guabiraba", "to": "passarinho", "value": 3.1}, {"from": "brejo da guabiraba", "to": "brejo de beberibe", "value": 1.6}, {"from": "brejo da guabiraba", "to": "nova descoberta", "value": 1.2}, {"from": "brejo da guabiraba", "to": "corrego do jenipapo", "value": 2.1}, {"from": "guabiraba", "to": "passarinho", "value": 7.1}, {"from": "guabiraba", "to": "pau-ferro", "value": 7.1}, {"from": "passarinho", "to": "brejo de beberibe", "value": 3.4}, {"from": "brejo de beberibe", "to": "nova descoberta", "value": 0.6}, {"from": "nova descoberta", "to": "corrego do jenipapo", "value": 1.3}, {"from": "nova descoberta", "to": "macaxeira", "value": 1.5}, {"from": "corrego do jenipapo", "to": "macaxeira", "value": 0.85}, {"from": "cordeiro", "to": "engenho do meio", "value": 2.9}, {"from": "cordeiro", "to": "iputinga", "value": 2.1}, {"from": "cordeiro", "to": "torre", "value": 2.2}, {"from": "cordeiro", "to": "zumbi", "value": 1.5}, {"from": "cordeiro", "to": "prado", "value": 2.8}, {"from": "cordeiro", "to": "san martin", "value": 3.0}, {"from": "cordeiro", "to": "torroes", "value": 2.0}, {"from": "engenho do meio", "to": "iputinga", "value": 2.6}, {"from": "engenho do meio", "to": "cidade universitaria", "value": 1.3}, {"from": "engenho do meio", "to": "curado", "value": 1.5}, {"from": "engenho do meio", "to": "torroes", "value": 1.0}, {"from": "iputinga", "to": "cidade universitaria", "value": 2.9}, {"from": "iputinga", "to": "varzea", "value": 3.8}, {"from": "iputinga", "to": "caxanga", "value": 3.3}, {"from": "iputinga", "to": "po\u00e7o", "value": 2.8}, {"from": "torre", "to": "parnamirin", "value": 1.6}, {"from": "torre", "to": "zumbi", "value": 1.7}, {"from": "zumbi", "to": "prado", "value": 1.5}, {"from": "prado", "to": "san martin", "value": 2.7}, {"from": "prado", "to": "bongi", "value": 0.9}, {"from": "san martin", "to": "torroes", "value": 1.9}, {"from": "san martin", "to": "bongi", "value": 1.9}, {"from": "san martin", "to": "mangueira", "value": 1.1}, {"from": "san martin", "to": "mustardinha", "value": 1.3}, {"from": "san martin", "to": "jiquia", "value": 2.8}, {"from": "san martin", "to": "est\u00e2ncia", "value": 1.5}, {"from": "san martin", "to": "curado", "value": 3.7}, {"from": "cidade universitaria", "to": "curado", "value": 3.5}, {"from": "cidade universitaria", "to": "varzea", "value": 1.1}, {"from": "varzea", "to": "caxanga", "value": 3.1}, {"from": "varzea", "to": "curado", "value": 3.8}, {"from": "bongi", "to": "mustardinha", "value": 1.0}, {"from": "curado", "to": "jardim sao paulo", "value": 3.2}, {"from": "curado", "to": "sancho", "value": 6.0}, {"from": "curado", "to": "toto", "value": 6.1}, {"from": "curado", "to": "tejipio", "value": 6.2}, {"from": "mustardinha", "to": "mangueira", "value": 0.9}, {"from": "mustardinha", "to": "jiquia", "value": 3.2}, {"from": "imbiribeira", "to": "areias", "value": 5.1}, {"from": "imbiribeira", "to": "jiquia", "value": 5.4}, {"from": "imbiribeira", "to": "boa viagem", "value": 2.8}, {"from": "imbiribeira", "to": "ibura", "value": 3.2}, {"from": "imbiribeira", "to": "ipsep", "value": 1.5}, {"from": "jiquia", "to": "mangueira", "value": 2.7}, {"from": "jiquia", "to": "areias", "value": 1.6}, {"from": "jiquia", "to": "est\u00e2ncia", "value": 1.8}, {"from": "est\u00e2ncia", "to": "areias", "value": 1.9}, {"from": "est\u00e2ncia", "to": "jardim sao paulo", "value": 1.8}, {"from": "areias", "to": "ibura", "value": 2.8}, {"from": "areias", "to": "barro", "value": 6.1}, {"from": "areias", "to": "cacote", "value": 1.2}, {"from": "areias", "to": "jardim sao paulo", "value": 2.8}, {"from": "areias", "to": "ipsep", "value": 2.5}, {"from": "ibura", "to": "cacote", "value": 2.6}, {"from": "ibura", "to": "barro", "value": 4.0}, {"from": "ibura", "to": "boa viagem", "value": 6.5}, {"from": "ibura", "to": "ipsep", "value": 5.4}, {"from": "ibura", "to": "cohab", "value": 3.7}, {"from": "ibura", "to": "jordao", "value": 3.4}, {"from": "barro", "to": "tejipio", "value": 3.3}, {"from": "barro", "to": "jardim sao paulo", "value": 5.4}, {"from": "barro", "to": "cohab", "value": 1.3}, {"from": "cacote", "to": "ipsep", "value": 1.7}, {"from": "jardim sao paulo", "to": "tejipio", "value": 3.5}, {"from": "tejipio", "to": "coqueiral", "value": 1.2}, {"from": "tejipio", "to": "sancho", "value": 0.8}, {"from": "cohab", "to": "jordao", "value": 5.3}, {"from": "coqueiral", "to": "toto", "value": 0.7}, {"from": "coqueiral", "to": "sancho", "value": 1.3}, {"from": "toto", "to": "sancho", "value": 1.2}, {"from": "boa viagem", "to": "jord\u00e3o", "value": 5.4}, {"from": "boa viagem", "to": "setubal", "value": 1.1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

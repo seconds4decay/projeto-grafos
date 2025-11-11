@@ -1,99 +1,101 @@
 bairro,grau,ordem_ego,tamanho_ego,densidade_ego
-recife,2,3,3,1.00
-santo amaro,10,8,13,0.46
-santo antonio,6,6,9,0.60
-soledade,4,4,5,0.83
-boa vista,10,10,17,0.38
-espinheiro,6,7,11,0.52
-torreao,4,5,8,0.80
-campo grande,8,8,14,0.50
-coelhos,5,6,10,0.67
-graças,3,4,4,0.67
-derby,5,6,10,0.67
-paissandu,6,7,13,0.62
-ilha do leite,5,5,8,0.80
-cabanga,3,4,4,0.67
-afogados,10,11,18,0.33
-sao jose,5,6,8,0.53
-pina,5,6,7,0.47
-ilha joana bezerra,6,7,11,0.52
-madalena,7,8,15,0.54
-ilha do retiro,6,7,13,0.62
-arruda,8,9,16,0.44
-agua fria,8,9,16,0.44
-campina do barreto,5,6,9,0.60
-peixinhos,3,4,5,0.83
-ponto de parada,6,7,13,0.62
-tamarineira,9,10,19,0.42
-mangabeira,5,6,11,0.73
-bomba do hemeterio,5,6,10,0.67
-cajueiro,3,4,5,0.83
-fundao,4,5,8,0.80
-hipodromo,3,4,6,1.00
-encruzilhada,8,9,16,0.44
-rosarinho,5,6,10,0.67
-aflitos,4,5,8,0.80
-gracas,8,9,14,0.39
-linha do tiro,6,7,12,0.57
-beberibe,4,5,7,0.70
-porto da madeira,4,5,7,0.70
-alto santa teresinha,6,7,13,0.62
-alto jose bonifacio,6,7,13,0.62
-alto jose do pinho,7,8,16,0.57
-morro da conceicao,5,6,11,0.73
-dois unidos,4,5,7,0.70
-vasco da gama,5,6,10,0.67
-casa amarela,11,12,23,0.35
-alto do mandu,5,6,10,0.67
-monteiro,5,6,9,0.60
-poco da panela,4,5,7,0.70
-casa forte,4,5,8,0.80
-parnamirim,5,6,10,0.67
-apipucos,7,8,14,0.50
-dois irmaos,5,6,8,0.53
-santana,6,7,10,0.48
-sitio dos pintos,2,3,3,1.00
-jaqueira,4,5,7,0.70
-brejo da guabiraba,5,6,9,0.60
-guabiraba,4,5,5,0.50
-passarinho,4,5,7,0.70
-brejo de beberibe,7,8,14,0.50
-nova descoberta,7,8,14,0.50
-corrego do jenipapo,5,6,9,0.60
-macaxeira,4,5,8,0.80
-pau-ferro,1,2,1,1.00
-cordeiro,9,9,15,0.42
-engenho do meio,5,6,9,0.60
-iputinga,8,9,14,0.39
-torre,6,7,10,0.48
-zumbi,4,5,8,0.80
-prado,7,8,14,0.50
-san martin,10,10,17,0.38
-torroes,3,4,5,0.83
-cidade universitaria,4,5,8,0.80
-varzea,4,5,7,0.70
-caxanga,5,6,9,0.60
-poço,1,2,1,1.00
-bongi,4,5,8,0.80
-parnamirin,1,2,1,1.00
-curado,8,9,13,0.36
-mustardinha,5,6,12,0.80
-são jose,1,2,1,1.00
-imbiribeira,7,8,14,0.50
-jiquia,7,8,16,0.57
-mangueira,4,5,9,0.90
-estância,4,5,7,0.70
-areias,8,9,18,0.50
-ibura,8,9,17,0.47
-barro,5,6,9,0.60
-cacote,3,4,6,1.00
-jardim sao paulo,5,6,9,0.60
-ipsep,4,5,9,0.90
-tejipio,5,6,9,0.60
-cohab,3,4,5,0.83
-coqueiral,3,4,5,0.83
-toto,3,4,5,0.83
-sancho,4,5,8,0.80
-boa viagem,4,5,6,0.60
-jordão,1,2,1,1.00
-brasilia teimosa,1,2,1,1.00
+recife,2,3,6,2.00
+santo amaro,10,8,26,0.93
+santo antonio,6,6,18,1.20
+soledade,4,4,10,1.67
+boa vista,10,10,34,0.76
+espinheiro,6,7,22,1.05
+torreao,4,5,16,1.60
+campo grande,8,8,28,1.00
+coelhos,5,6,20,1.33
+graças,3,4,8,1.33
+derby,5,6,20,1.33
+paissandu,6,7,26,1.24
+ilha do leite,5,5,16,1.60
+cabanga,3,4,8,1.33
+afogados,10,11,36,0.65
+sao jose,5,6,16,1.07
+pina,5,6,14,0.93
+ilha joana bezerra,6,7,22,1.05
+madalena,7,8,30,1.07
+ilha do retiro,6,7,26,1.24
+arruda,8,9,32,0.89
+agua fria,8,9,32,0.89
+campina do barreto,5,6,18,1.20
+peixinhos,3,4,10,1.67
+ponto de parada,6,7,26,1.24
+tamarineira,9,10,38,0.84
+mangabeira,5,6,22,1.47
+bomba do hemeterio,5,6,20,1.33
+cajueiro,3,4,10,1.67
+fundao,4,5,16,1.60
+hipodromo,3,4,12,2.00
+encruzilhada,8,9,32,0.89
+rosarinho,5,6,20,1.33
+aflitos,4,5,16,1.60
+gracas,8,9,28,0.78
+linha do tiro,6,7,24,1.14
+beberibe,4,5,14,1.40
+porto da madeira,4,5,14,1.40
+alto santa teresinha,6,7,26,1.24
+alto jose bonifacio,6,7,26,1.24
+alto jose do pinho,7,8,32,1.14
+morro da conceicao,5,6,22,1.47
+dois unidos,4,5,14,1.40
+vasco da gama,5,6,20,1.33
+casa amarela,11,12,46,0.70
+alto do mandu,5,6,20,1.33
+monteiro,5,6,18,1.20
+poco da panela,4,5,14,1.40
+casa forte,4,5,16,1.60
+parnamirim,5,6,20,1.33
+apipucos,7,8,28,1.00
+dois irmaos,5,6,16,1.07
+santana,6,7,20,0.95
+sitio dos pintos,2,3,6,2.00
+jaqueira,4,5,14,1.40
+brejo da guabiraba,5,6,18,1.20
+guabiraba,4,5,10,1.00
+passarinho,4,5,14,1.40
+brejo de beberibe,7,8,28,1.00
+nova descoberta,7,8,28,1.00
+corrego do jenipapo,5,6,18,1.20
+macaxeira,4,5,16,1.60
+pau-ferro,1,2,2,2.00
+cordeiro,9,9,30,0.83
+engenho do meio,5,6,18,1.20
+iputinga,8,9,28,0.78
+torre,6,7,20,0.95
+zumbi,4,5,16,1.60
+prado,7,8,28,1.00
+san martin,10,10,34,0.76
+torroes,3,4,10,1.67
+cidade universitaria,4,5,16,1.60
+varzea,4,5,14,1.40
+caxanga,5,6,18,1.20
+poço,1,2,2,2.00
+bongi,4,5,16,1.60
+parnamirin,1,2,2,2.00
+curado,8,9,26,0.72
+mustardinha,5,6,24,1.60
+são jose,1,2,2,2.00
+imbiribeira,7,8,28,1.00
+jiquia,7,8,32,1.14
+mangueira,4,5,18,1.80
+estância,4,5,14,1.40
+areias,8,9,36,1.00
+ibura,8,9,34,0.94
+barro,5,6,18,1.20
+cacote,3,4,12,2.00
+jardim sao paulo,5,6,18,1.20
+ipsep,4,5,18,1.80
+tejipio,5,6,18,1.20
+cohab,3,4,10,1.67
+coqueiral,3,4,10,1.67
+toto,3,4,10,1.67
+sancho,4,5,16,1.60
+boa viagem,5,6,14,0.93
+jordão,1,2,2,2.00
+setubal,1,2,2,2.00
+brasilia teimosa,1,2,2,2.00
+jordao,2,3,6,2.00
