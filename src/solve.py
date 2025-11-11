@@ -84,6 +84,7 @@ def obter_subgrafo_por_microrregiao(lista_adjacencia, df, microrregiao):
 
     return subgrafo
 
+# Calcula as métricas globais para cada microrregião e salva em um JSON
 def metricas_globais_microrregioes(lista_adjacencia):
     df = pd.read_csv(caminho_bairros_unique)
 
@@ -104,28 +105,30 @@ def metricas_globais_microrregioes(lista_adjacencia):
 
     return resultados
 
+# Calcula as métricas de ego network para cada bairro
 def ego_network_metricas(lista_adjacencia):
     results = []
 
     for bairro in lista_adjacencia.keys():
 
         vizinhos = []
-
+        
+        # coleta vizinhos do bairro
         for item in lista_adjacencia[bairro]:
             if isinstance(item, tuple):
                 vizinhos.append(item[0])
             else:
                 vizinhos.append(item)
 
+        # calcula grau do bairro
         grau = len(vizinhos)
 
         ego_vertices = set([bairro] + vizinhos)
 
         ego_arestas = set()
 
+        # percorre os vértices da ego network
         for u in ego_vertices:
-            if u not in lista_adjacencia:
-                continue
 
             # vizinhos de u
             for item in lista_adjacencia[u]:
@@ -140,7 +143,7 @@ def ego_network_metricas(lista_adjacencia):
 
         ordem_ego = len(ego_vertices)
 
-
+        # calcula densidade da ego network
         if ordem_ego > 1:
             densidade_ego = tamanho_ego / (ordem_ego * (ordem_ego - 1) / 2)
         else:
@@ -158,6 +161,7 @@ def ego_network_metricas(lista_adjacencia):
     df.to_csv(ego_bairro_csv, index=False)
     return df
 
+# Converte um deque em string no formato "A -> B -> C"
 def deque_to_string(deque_obj):
     list_obj = list(deque_obj)
 
@@ -170,12 +174,13 @@ def deque_to_string(deque_obj):
 
     return result
 
+# Calcula o peso do caminho entre os endereços listados no CSV
 def calcular_peso_caminho_enderecos(lista_adjacencia):
     df_enderecos = pd.read_csv(caminho_enderecos_csv)
 
     resultado = []
 
-
+    # Para cada par de endereços, calcula o peso do caminho entre os bairros correspondentes
     for _, row in df_enderecos.iterrows():
         endereco_X = row["X"]
         endereco_Y = row["Y"]
@@ -185,6 +190,7 @@ def calcular_peso_caminho_enderecos(lista_adjacencia):
         # Calcula o peso do caminho entre os bairros usando Dijkstra
         peso, caminho = dijkstra_path(lista_adjacencia, bairro_X, bairro_Y)
 
+        # Se o par de bairros for "nova descoberta" e "setubal", salva o percurso em um JSON separado
         if bairro_X == "nova descoberta" and bairro_Y == "setubal":
             with open(percurso_nova_descoberta_setubal, "w", encoding="utf-8") as f:
                 json.dump({
@@ -206,21 +212,23 @@ def calcular_peso_caminho_enderecos(lista_adjacencia):
 if __name__ == "__main__":
     lista_adjacencia = carregar_lista_adjacencia()
 
-    resultado_global = metricas_globais(lista_adjacencia)
+    print(lista_adjacencia)
+
+    #resultado_global = metricas_globais(lista_adjacencia)
 
     #print("Métricas globais do grafo:")
     #print(resultado_global)
 
-    resultado_metricas_microrregioes = metricas_globais_microrregioes(lista_adjacencia)
+    #resultado_metricas_microrregioes = metricas_globais_microrregioes(lista_adjacencia)
 
-    print("Métricas por microrregião:")
-    print(resultado_metricas_microrregioes)
+    #print("Métricas por microrregião:")
+    #print(resultado_metricas_microrregioes)
 
-    ego_network_metricas(lista_adjacencia)
+    #ego_network_metricas(lista_adjacencia)
 
-    calcular_peso_caminho_enderecos(lista_adjacencia)
+    #calcular_peso_caminho_enderecos(lista_adjacencia)
 
-    gerar_csv_graus(lista_adjacencia)
+    #gerar_csv_graus(lista_adjacencia)
     
     
 
