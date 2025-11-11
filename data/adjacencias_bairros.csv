@@ -1,4 +1,4 @@
-bairro_origem,bairro_destino,logradouro,observacao,peso
+ bairro_origem,bairro_destino,logradouro,observacao,peso
 recife,santo amaro,ponte do limoeiro,,1.1
 recife,santo antonio,ponte mauricio de nassau,,2
 santo amaro,santo antonio,ponte duarte coelho,,2.5
@@ -10,7 +10,7 @@ santo amaro ,campo grande,r. odorico mendes,,2
 boa vista,soledade,r. das ninfas,,0.55
 boa vista,coelhos,r. da santa cruz,,1.1
 boa vista,espinheiro,av. gov. agamenon magalhaes,,1.8
-boa vista,graças,av. rui barbosa,,1.1
+boa vista,gracas,av. rui barbosa,,1.1
 boa vista,derby,av. governador carlos de lima cavalcanti,,0.5
 boa vista,paissandu,r. do paissandu,,1.2
 boa vista,ilha do leite,r. marques amorim,,1.1
@@ -31,7 +31,7 @@ santo antonio ,coelhos ,r. dr. jose mariano,,1.4
 santo antonio ,boa vista ,av. manuel borba,,2.2
 sao jose,pina,ponte gov. paulo guerra,,4.3
 sao jose,ilha joana bezerra,r. imperial ,,2
-soledade,graças ,av. joao de barros ,,2.2
+soledade,gracas ,av. joao de barros ,,2.2
 soledade,santo amaro,r. gervasio pires,,2.4
 coelhos ,ilha joana bezerra,ponte viaduto joaquim cardozo,,1.5
 coelhos ,sao jose ,r. dr jose mariano,,1.9
@@ -58,7 +58,7 @@ encruzilhada,ponto de parada,r. dr. eneas de lucena,,1.3
 encruzilhada,torreao,r. castro alves,,1.1
 encruzilhada,espinheiro,av. joao de barros,,1
 encruzilhada,aflitos,r. carneiro vilela,,1
-encruzilhada,graças ,r. conselheiro portela,,1.8
+encruzilhada,gracas ,r. conselheiro portela,,1.8
 hipodromo,encruzilhada,r. da coragem,,0.6
 hipodromo,ponto de parada,r. mem de sa,,1
 ponto de parada,rosarinho,av. santos dumont,,0.95
@@ -139,7 +139,6 @@ brejo de beberibe,alto jose bonifacio,r. alto jose bonifacio,,2.3
 brejo de beberibe,vasco da gama,r. alto do eucalipto,,2.4
 brejo de beberibe,nova descoberta,r. cacau,,0.6
 corrego do jenipapo,dois irmaos,estr. particular br cento e um ,,2
-corrego do jenipapo,apipucos,r. erudina n. de araujo,,2.4
 corrego do jenipapo,macaxeira,r. anita,,0.85
 corrego do jenipapo,nova descoberta,r. alto santa luzia,,1.3
 guabiraba,passarinho,estr. do passarinho,,7.1
@@ -147,7 +146,6 @@ guabiraba,dois irmaos,av. da recuperaçao,,12
 guabiraba,pau-ferro,tv. evaristo veiga,,7.1
 macaxeira,apipucos,r. cel. joao batista do rego barros,,1.7
 macaxeira,nova descoberta,r. corrego da areia,,1.5
-macaxeira,alto do mandu,av. jose americo de almeida,,1.7
 nova descoberta,vasco da gama,r. vasco da gama,,2.3
 nova descoberta,alto do mandu,r. nova descoberta,,3.2
 nova descoberta,casa amarela,r. paraisopolis,,4.2
@@ -171,7 +169,7 @@ iputinga,varzea,r. mal. manoel luis osorio,,3.8
 iputinga,caxanga,av. caxanga,,3.3
 iputinga,apipucos,br-101,,4.4
 iputinga,monteiro,pte. da salvaçao,,1.6
-iputinga,poço,pt. eng. jaime gusmao,,2.8
+iputinga,poco da panela,pt. eng. jaime gusmao,,2.8
 madalena,zumbi,r. antonio de sa,,1.8
 madalena,torre,r. real da torre,,1
 madalena,prado,r. carlos gomes,,1.1
@@ -181,8 +179,7 @@ prado,zumbi,r. gomes taborda,,1.5
 prado,san martin,av. eng. abdias de carvalho,,2.7
 prado,bongi,r. potira,,0.9
 prado,afogados,r. escritor alexandre neputino,,2.2
-torre,santana,r. afonso de albuquerque melo ,,2
-torre,parnamirin,r. joao tude de melo,,1.6
+torre,parnamirim,r. joao tude de melo,,1.6
 torre,gracas,r. amelia,,1.4
 torre,zumbi,r. vila viseu,,1.7
 engenho do meio,cidade universitaria,av. visc. de sao leopoldo,,1.3
@@ -199,7 +196,7 @@ varzea,curado,r. mario campelo,,3.8
 afogados,mustardinha,av. mustardinha,,1.6
 afogados,bongi,estr. do bongi,,2.1
 afogados,ilha joana bezerra,av. beira rio dep. osvaldo coelho,,5.1
-afogados,são jose,av. rio capibaribe,,3.4
+afogados,sao jose,av. rio capibaribe,,3.4
 afogados,imbiribeira,av. beira rio dep. osvaldo coelho,,3.7
 afogados,jiquia,r. sao miguel,,2.5
 afogados,mangueira,r. mandari,,1.6
@@ -241,11 +238,10 @@ curado,tejipio,av. piracaba,,6.2
 jardim sao paulo,tejipio,av. r. jose rufino,,3.5
 sancho,toto,r. dr. urbano vitalino de melo filho,,1.2
 sancho,tejipio,r. dracena,,0.8
-boa viagem,jordão,av. mal. juarez tavora,,5.4
+boa viagem,jordao,av. mal. juarez tavora,,5.4
 boa viagem,ibura,av. fernando simoes barbosa,,6.5
 boa viagem,imbiribeira,av. general mac arthur,,2.8
 boa viagem,pina,r. pereira da costa,,4.5
-boa viagem,setubal,av. boa viagem,,1.1
 brasilia teimosa,pina,av. eng. domingos ferreira,,2.7
 imbiribeira,pina,viaduto dom joao vi,,5.5
 imbiribeira,ibura,rua potengy,,3.2
@@ -254,3 +250,4 @@ ipsep,ibura,av. mal. mascarenhas de morais,,5.4
 ibura,cohab,av. dois rios,,3.7
 ibura,jordao,r. francisco beltrao,,3.4
 jordao,cohab,r. rio xingu,,5.3
+boa viagem,setubal,av. boa viagem,,1.1
