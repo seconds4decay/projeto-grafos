@@ -208,8 +208,7 @@ def visualizar_grafo(
 
             Object.values(network.body.edges).forEach(e => {{
                 e.setOptions({{
-                    color: "rgba(100,100,100,0.5)",
-                    width: 1
+                    color: "rgba(100,100,100,0.5)"
                 }});
             }});
         }}
@@ -242,7 +241,7 @@ def visualizar_grafo(
                 let a = p[i], b = p[i+1];
                 Object.values(network.body.edges).forEach(e => {{
                     if ((e.fromId===a && e.toId===b) || (e.fromId===b && e.toId===a)) {{
-                        e.setOptions({{ color:"yellow", width:5 }});
+                        e.setOptions({{ color:"yellow"}});
                     }}
                 }});
             }}
