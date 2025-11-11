@@ -150,7 +150,7 @@ def visualizar_grafo(
     for origem_b, vizinhos in lista_adjacencia.items():
         for destino_b, peso in vizinhos:
             if destino_b in lista_adjacencia:
-                net.add_edge(origem_b, destino_b, value=peso, color="rgba(100,100,100,0.5)", width=1)
+                net.add_edge(origem_b, destino_b,title=f"Peso: {peso}", value=peso, color="rgba(100,100,100,0.5)", width=1)
 
     # escreve html
     net.write_html(output_html)
@@ -273,7 +273,7 @@ def visualizar_grafo(
                 Nova Descoberta → Setúbal
             </button>
         </div>
-
+        <div style="display:flex; gap:20px; flex-direction:row;">
         <div style="padding:10px; width:260px;">
             <label style="font-weight:bold;">Legenda (grau):</label>
             <div style="
@@ -304,6 +304,35 @@ def visualizar_grafo(
                     top: 20px;
                     font-size: 12px;
                 ">11</span>
+            </div>
+        </div>
+
+        <div style="padding:10px; width:260px;">
+            <label style="font-weight:bold;">Legenda (peso da aresta):</label>
+
+            <div style="display:flex; flex-direction:column; gap:6px; margin-top:6px;">
+
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <svg width="60" height="8">
+                        <line x1="0" y1="4" x2="60" y2="4" stroke="black" stroke-width="1"/>
+                    </svg>
+                    <span style="font-size:12px;">peso baixo</span>
+                </div>
+
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <svg width="60" height="8">
+                        <line x1="0" y1="4" x2="60" y2="4" stroke="black" stroke-width="3"/>
+                    </svg>
+                    <span style="font-size:12px;">peso médio</span>
+                </div>
+
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <svg width="60" height="8">
+                        <line x1="0" y1="4" x2="60" y2="4" stroke="black" stroke-width="6"/>
+                    </svg>
+                    <span style="font-size:12px;">peso alto</span>
+                </div>
+            </div>
             </div>
         </div>
     """
