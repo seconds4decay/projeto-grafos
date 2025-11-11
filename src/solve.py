@@ -17,7 +17,7 @@ caminho_enderecos_csv = os.path.join(BASE_DIR, "../data/enderecos.csv")
 distancias_enderecos_csv = os.path.join(BASE_DIR, "../out/distancias_enderecos.csv")
 percurso_nova_descoberta_setubal = os.path.join(BASE_DIR, "../out/percurso_nova_descoberta_setubal.json")
 
-def gerar_csv_graus(lista_adjacencia):
+def gerar_csv_graus(lista_adjacencia = carregar_lista_adjacencia()):
     graus = {}
     graus_values = []
 
@@ -37,7 +37,7 @@ def gerar_csv_graus(lista_adjacencia):
         pd.DataFrame(resultado).to_csv(f, index=False)
    
 
-def metricas_globais(lista_adjacencia):
+def metricas_globais(lista_adjacencia = carregar_lista_adjacencia()):
     # Ordem (nº de vértices)
     V = len(lista_adjacencia)
 
@@ -85,7 +85,7 @@ def obter_subgrafo_por_microrregiao(lista_adjacencia, df, microrregiao):
     return subgrafo
 
 # Calcula as métricas globais para cada microrregião e salva em um JSON
-def metricas_globais_microrregioes(lista_adjacencia):
+def metricas_globais_microrregioes(lista_adjacencia = carregar_lista_adjacencia()):
     df = pd.read_csv(caminho_bairros_unique)
 
     resultados = {}
@@ -106,7 +106,7 @@ def metricas_globais_microrregioes(lista_adjacencia):
     return resultados
 
 # Calcula as métricas de ego network para cada bairro
-def ego_network_metricas(lista_adjacencia):
+def ego_network_metricas(lista_adjacencia = carregar_lista_adjacencia()):
     results = []
 
     for bairro in lista_adjacencia.keys():
@@ -175,7 +175,7 @@ def deque_to_string(deque_obj):
     return result
 
 # Calcula o peso do caminho entre os endereços listados no CSV
-def calcular_peso_caminho_enderecos(lista_adjacencia):
+def calcular_peso_caminho_enderecos(lista_adjacencia = carregar_lista_adjacencia()):
     df_enderecos = pd.read_csv(caminho_enderecos_csv)
 
     resultado = []
@@ -210,25 +210,11 @@ def calcular_peso_caminho_enderecos(lista_adjacencia):
         pd.DataFrame(resultado).to_csv(f, index=False)
 
 if __name__ == "__main__":
-    lista_adjacencia = carregar_lista_adjacencia()
-
-    print(lista_adjacencia)
-
-    #resultado_global = metricas_globais(lista_adjacencia)
-
-    #print("Métricas globais do grafo:")
-    #print(resultado_global)
-
-    #resultado_metricas_microrregioes = metricas_globais_microrregioes(lista_adjacencia)
-
-    #print("Métricas por microrregião:")
-    #print(resultado_metricas_microrregioes)
-
-    #ego_network_metricas(lista_adjacencia)
-
-    #calcular_peso_caminho_enderecos(lista_adjacencia)
-
-    #gerar_csv_graus(lista_adjacencia)
+    metricas_globais()
+    metricas_globais_microrregioes()
+    ego_network_metricas()
+    calcular_peso_caminho_enderecos()
+    gerar_csv_graus()
     
     
 

@@ -3,20 +3,20 @@ recife,2,3,6,2.00
 santo amaro,10,8,26,0.93
 santo antonio,6,6,18,1.20
 soledade,4,4,10,1.67
-boa vista,10,10,34,0.76
-espinheiro,6,7,22,1.05
+boa vista,10,10,38,0.84
+espinheiro,6,7,26,1.24
 torreao,4,5,16,1.60
 campo grande,8,8,28,1.00
 coelhos,5,6,20,1.33
-graças,3,4,8,1.33
-derby,5,6,20,1.33
+gracas,11,12,46,0.70
+derby,5,6,22,1.47
 paissandu,6,7,26,1.24
 ilha do leite,5,5,16,1.60
-cabanga,3,4,8,1.33
-afogados,10,11,36,0.65
-sao jose,5,6,16,1.07
+cabanga,3,4,10,1.67
+afogados,10,11,40,0.73
+sao jose,6,7,22,1.05
 pina,5,6,14,0.93
-ilha joana bezerra,6,7,22,1.05
+ilha joana bezerra,6,7,24,1.14
 madalena,7,8,30,1.07
 ilha do retiro,6,7,26,1.24
 arruda,8,9,32,0.89
@@ -30,10 +30,9 @@ bomba do hemeterio,5,6,20,1.33
 cajueiro,3,4,10,1.67
 fundao,4,5,16,1.60
 hipodromo,3,4,12,2.00
-encruzilhada,8,9,32,0.89
-rosarinho,5,6,20,1.33
-aflitos,4,5,16,1.60
-gracas,8,9,28,0.78
+encruzilhada,8,9,38,1.06
+rosarinho,5,6,22,1.47
+aflitos,4,5,18,1.80
 linha do tiro,6,7,24,1.14
 beberibe,4,5,14,1.40
 porto da madeira,4,5,14,1.40
@@ -44,28 +43,28 @@ morro da conceicao,5,6,22,1.47
 dois unidos,4,5,14,1.40
 vasco da gama,5,6,20,1.33
 casa amarela,11,12,46,0.70
-alto do mandu,5,6,20,1.33
-monteiro,5,6,18,1.20
-poco da panela,4,5,14,1.40
+alto do mandu,4,5,14,1.40
+monteiro,5,6,20,1.33
+poco da panela,5,6,18,1.20
 casa forte,4,5,16,1.60
-parnamirim,5,6,20,1.33
-apipucos,7,8,28,1.00
-dois irmaos,5,6,16,1.07
-santana,6,7,20,0.95
+parnamirim,6,7,22,1.05
+apipucos,6,7,20,0.95
+dois irmaos,5,6,14,0.93
+santana,5,6,16,1.07
 sitio dos pintos,2,3,6,2.00
 jaqueira,4,5,14,1.40
 brejo da guabiraba,5,6,18,1.20
 guabiraba,4,5,10,1.00
 passarinho,4,5,14,1.40
 brejo de beberibe,7,8,28,1.00
-nova descoberta,7,8,28,1.00
-corrego do jenipapo,5,6,18,1.20
-macaxeira,4,5,16,1.60
+nova descoberta,7,8,26,0.93
+corrego do jenipapo,4,5,12,1.20
+macaxeira,3,4,8,1.33
 pau-ferro,1,2,2,2.00
-cordeiro,9,9,30,0.83
+cordeiro,9,9,28,0.78
 engenho do meio,5,6,18,1.20
-iputinga,8,9,28,0.78
-torre,6,7,20,0.95
+iputinga,8,9,30,0.83
+torre,5,6,16,1.07
 zumbi,4,5,16,1.60
 prado,7,8,28,1.00
 san martin,10,10,34,0.76
@@ -73,18 +72,15 @@ torroes,3,4,10,1.67
 cidade universitaria,4,5,16,1.60
 varzea,4,5,14,1.40
 caxanga,5,6,18,1.20
-poço,1,2,2,2.00
 bongi,4,5,16,1.60
-parnamirin,1,2,2,2.00
 curado,8,9,26,0.72
 mustardinha,5,6,24,1.60
-são jose,1,2,2,2.00
 imbiribeira,7,8,28,1.00
 jiquia,7,8,32,1.14
 mangueira,4,5,18,1.80
 estância,4,5,14,1.40
 areias,8,9,36,1.00
-ibura,8,9,34,0.94
+ibura,8,9,36,1.00
 barro,5,6,18,1.20
 cacote,3,4,12,2.00
 jardim sao paulo,5,6,18,1.20
@@ -94,8 +90,7 @@ cohab,3,4,10,1.67
 coqueiral,3,4,10,1.67
 toto,3,4,10,1.67
 sancho,4,5,16,1.60
-boa viagem,5,6,14,0.93
-jordão,1,2,2,2.00
-setubal,1,2,2,2.00
+boa viagem,5,6,16,1.07
+jordao,3,4,10,1.67
 brasilia teimosa,1,2,2,2.00
-jordao,2,3,6,2.00
+setubal,1,2,2,2.00

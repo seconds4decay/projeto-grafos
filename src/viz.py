@@ -41,7 +41,7 @@ def plot_percurso_nova_descoberta_setubal():
     net.write_html(arvore_percurso_html)
 
 # Função para criar um mapa de cores baseado no grau dos bairros
-def mapa_de_cores_por_grau(lista_adjacencia, graus):
+def mapa_de_cores_por_grau(lista_adjacencia = carregar_lista_adjacencia(), graus = pd.read_csv(caminho_graus_csv)):
     net = Network(height="750px", width="100%", notebook=False)
 
     min_grau = graus["grau"].min()
@@ -66,7 +66,7 @@ def mapa_de_cores_por_grau(lista_adjacencia, graus):
     net.write_html(mapa_cores_graus_html)
 
 # Função para gerar um gráfico de ranking de microrregiões por densidade ego
-def ranking_densidade_ego_por_microrregiao(df_ego_bairro, bairros_microrregiao_csv):
+def ranking_densidade_ego_por_microrregiao(df_ego_bairro = pd.read_csv(ego_bairros_csv), bairros_microrregiao_csv = bairros_microrregiao_csv):
     bairros_microrregiao = pd.read_csv(bairros_microrregiao_csv)
 
     # Remover espaços em branco dos nomes dos bairros e microrregiões
@@ -94,9 +94,7 @@ def ranking_densidade_ego_por_microrregiao(df_ego_bairro, bairros_microrregiao_c
     plt.title("Top 10 Microrregiões por Densidade Ego")
     plt.gca().invert_yaxis()
     plt.tight_layout()
-
     plt.savefig(os.path.join(BASE_DIR, "../out/ranking_densidade_ego_por_microrregiao.png"))
-    plt.show()
     plt.close()
 
 def histograma_graus(lista_graus = pd.read_csv(caminho_graus_csv)):
@@ -322,4 +320,8 @@ def visualizar_grafo(
     print(f"Grafo salvo em {output_html}")
 
 if __name__ == "__main__":
+    plot_percurso_nova_descoberta_setubal()
+    mapa_de_cores_por_grau()
+    ranking_densidade_ego_por_microrregiao()
+    visualizar_grafo()
     histograma_graus()
