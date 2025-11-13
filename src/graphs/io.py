@@ -2,6 +2,7 @@ import csv
 import os
 import unicodedata
 import re
+from collections import defaultdict
 
 def normalizar_nome(nome: str) -> str:
     # Remove acentos, espaços extras e transforma em minúsculas
@@ -103,7 +104,7 @@ def filtrar_dataset_2024_e_gerar_csv(caminho_entrada: str, caminho_saida: str):
                 
                 # Converte peso para float
                 peso = float(peso_str)
-
+                
                 # Verifica duplicatas
                 chave = (vertice_origem, vertice_destino)
                 if chave in vistos:
@@ -113,6 +114,26 @@ def filtrar_dataset_2024_e_gerar_csv(caminho_entrada: str, caminho_saida: str):
                 # Escreve no arquivo de saída
                 escritor.writerow([vertice_origem, vertice_destino, peso])
 
+def carregar_lista_adjacencia_parte2(caminho_csv: str) -> dict:
+    grafo = defaultdict(list)
+
+    with open(caminho_csv, newline='', encoding="utf-8") as f:
+        leitor = csv.DictReader(f) # lê como um dicionario
+
+        for linha in leitor:
+            origem = linha["vertice_origem"].strip().lower()
+            destino = linha["vertice_destino"].strip().lower()
+            peso = float(linha["peso"].strip())
+            
+            # Garante que os vértices isolados também sejam adicionados
+            if destino not in grafo:
+                grafo[destino] = []
+                
+            # Adiciona a aresta ao grafo ( Origem -> Destino )
+            grafo[origem].append((destino, peso))
+
+    return dict(grafo)
+
 
 
 # Main para testar as funções 
@@ -120,12 +141,20 @@ if __name__ == "__main__":
     #caminho_csv = "../../data/bairros_recife.csv"
     #saida_csv = "../../data/bairros_unique.csv"
     
-    caminho_csvBruto = "../../data/airlineFlightRoutes.csv"
-    saida_csvFiltrado = "../../data/csvFiltrado.csv"
+    caminho_csvBruto = "../../data/dataset_parte2/airlineFlightRoutes.csv"
+    saida_csvFiltrado = "../../data/dataset_parte2/csvFiltrado.csv"
     
+    dicionario = carregar_lista_adjacencia_parte2(saida_csvFiltrado)
+    
+    for o, d in list(dicionario.items()):
+        print(o, ":", d)
+
+    """
     try:
         filtrar_dataset_2024_e_gerar_csv(caminho_csvBruto, saida_csvFiltrado)
         print("CSV filtrado gerado com sucesso!")
 
     except Exception as e:
         print("Erro:", e)
+
+    """
