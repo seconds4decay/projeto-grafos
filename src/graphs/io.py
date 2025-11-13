@@ -10,6 +10,10 @@ def normalizar_nome(nome: str) -> str:
     nome = re.sub(r"\s+", " ", nome)  # colapsa espaços internos
     return nome
 
+##############################
+# PARTE 1
+##############################
+
 # Derrete o csv bairros_recife.csv e transforma em uma dicionario 
 def derreter_bairros_recife(input_path: str) -> dict[str, str]:
     with open(input_path, newline='', encoding="utf-8") as csvfile: #Abre o arquivo csv
@@ -54,19 +58,74 @@ def salvar_bairros_unique(bairros_dict: dict[str, str], output_path: str) -> Non
 
     print(f"Arquivo salvo com sucesso em: {output_path}")
 
+
+##############################
+# PARTE 2
+##############################
+
+# Função pra ler o dataset bruto 
+def ler_dataset_bruto(caminho: str):
+    linhas = []
+
+    with open(caminho, newline='', encoding="utf-8") as f:
+        leitor = csv.DictReader(f) 
+        for linha in leitor:
+            linhas.append(linha)
+    return linhas   
+
+# Função pra filtrar o dataset e gerar um csv limpo
+def filtrar_dataset_2024_e_gerar_csv(caminho_entrada: str, caminho_saida: str):
+    with open(caminho_entrada, newline='', encoding="utf-8") as f_in:
+        leitor = csv.DictReader(f_in) # lê como um dicionario
+
+        # Já prepara o arquivo de saída 
+        with open(caminho_saida, "w", encoding="utf-8", newline="") as f_out:
+            escritor = csv.writer(f_out)
+
+            # Cabeçalho 
+            escritor.writerow(["vertice_origem", "vertice_destino", "peso"])
+
+            # Pra evitar duplicatas
+            vistos = set()
+
+            for linha in leitor:
+                # Filtra apenas voos de 2024
+                if linha["Year"] != "2024":
+                    continue
+
+                vertice_origem = linha["airport_1"].strip().lower()
+                vertice_destino = linha["airport_2"].strip().lower()
+                peso_str = linha["nsmiles"].strip()
+
+                # validações básicas
+                if not vertice_destino or not vertice_origem or not peso_str:
+                    continue
+                
+                # Converte peso para float
+                peso = float(peso_str)
+
+                # Verifica duplicatas
+                chave = (vertice_origem, vertice_destino)
+                if chave in vistos:
+                    continue
+                vistos.add(chave)
+                
+                # Escreve no arquivo de saída
+                escritor.writerow([vertice_origem, vertice_destino, peso])
+
+
+
 # Main para testar as funções 
 if __name__ == "__main__":
-    caminho_csv = "../../data/bairros_recife.csv"
-    saida_csv = "../../data/bairros_unique.csv"
-
+    #caminho_csv = "../../data/bairros_recife.csv"
+    #saida_csv = "../../data/bairros_unique.csv"
+    
+    caminho_csvBruto = "../../data/airlineFlightRoutes.csv"
+    saida_csvFiltrado = "../../data/csvFiltrado.csv"
+    
     try:
-        bairros = derreter_bairros_recife(caminho_csv)  # Dicionario
-        print(f"Total de bairros únicos: {len(bairros)}\n")
-
-        for i, (bairro, microrregiao) in enumerate(bairros.items()):
-            print(f"{bairro} -> {microrregiao}")
+        filtrar_dataset_2024_e_gerar_csv(caminho_csvBruto, saida_csvFiltrado)
+        print("CSV filtrado gerado com sucesso!")
 
     except Exception as e:
         print("Erro:", e)
-
-    salvar_bairros_unique(bairros, saida_csv)
