@@ -59,7 +59,6 @@ def salvar_bairros_unique(bairros_dict: dict[str, str], output_path: str) -> Non
 
     print(f"Arquivo salvo com sucesso em: {output_path}")
 
-
 ##############################
 # PARTE 2
 ##############################
@@ -128,13 +127,11 @@ def carregar_lista_adjacencia_parte2(caminho_csv: str) -> dict:
             # Garante que os vértices isolados também sejam adicionados
             if destino not in grafo:
                 grafo[destino] = []
-                
+
             # Adiciona a aresta ao grafo ( Origem -> Destino )
             grafo[origem].append((destino, peso))
 
     return dict(grafo)
-
-
 
 # Main para testar as funções 
 if __name__ == "__main__":

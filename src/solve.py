@@ -1,6 +1,7 @@
 import json
 import os
 from graphs.graph import carregar_lista_adjacencia
+from graphs.io import carregar_lista_adjacencia_parte2
 from graphs.algorithms import dijkstra_path
 import pandas as pd
 
@@ -16,6 +17,14 @@ ego_bairro_csv = os.path.join(BASE_DIR, "../out/ego_bairro.csv")
 caminho_enderecos_csv = os.path.join(BASE_DIR, "../data/enderecos.csv")
 distancias_enderecos_csv = os.path.join(BASE_DIR, "../out/distancias_enderecos.csv")
 percurso_nova_descoberta_setubal = os.path.join(BASE_DIR, "../out/percurso_nova_descoberta_setubal.json")
+
+# parte 2 - caminhos aereos
+caminho_out = os.path.join(BASE_DIR, "../out/parte2_metrics.json")
+caminho_csvFiltrado = ("../data/dataset_parte2/csvFiltrado.csv")
+
+#####################################
+## PARTE 1
+#####################################
 
 def gerar_csv_graus(lista_adjacencia = carregar_lista_adjacencia()):
     graus = {}
@@ -209,12 +218,96 @@ def calcular_peso_caminho_enderecos(lista_adjacencia = carregar_lista_adjacencia
     with open(distancias_enderecos_csv, "w", encoding="utf-8") as f:
         pd.DataFrame(resultado).to_csv(f, index=False)
 
+
+#####################################
+## PARTE 2
+#####################################
+
+def calcular_metricas_parte2(lista_adj = carregar_lista_adjacencia_parte2(caminho_csvFiltrado)):
+    
+    #---------------
+    # Ordem (nº de vértices)
+    #---------------
+
+    # set para evitar duplicatas
+    vertices = set(lista_adj.keys())
+    for origem, vizinhos in lista_adj.items():
+        # percorre os vizinhos do vértice origem
+        for destino, _ in vizinhos:
+            vertices.add(destino)
+    
+    # adquire o número de vértices únicos
+    V = len(vertices)
+
+    #---------------
+    # Tamanho (nº de arestas)
+    #---------------
+
+    # Arestas são contadas somando todos os vértices adjacentes da lista de adjacencia 
+    E = sum(len(vizinhos) for vizinhos in lista_adj.values()) 
+
+    #---------------
+    # Graus (in e out)
+    #---------------
+
+    # inicializa dicionários de grau
+    out_degree = {v: 0 for v in vertices}
+    in_degree = {v: 0 for v in vertices}
+
+    # percorre a lista de adjacência para calcular os graus
+    for origem, vizinhos in lista_adj.items():
+        # grau de saída é o número de vizinhos
+        out_degree[origem] += len(vizinhos)
+        # percorre os vizinhos para incrementar o grau de entrada
+        for destino, _ in vizinhos:
+            # grau de entrada é incrementado para cada ligação que chega ao destino
+            in_degree[destino] += 1
+
+    #---------------
+    # Estatísticas da distribuição 
+    #---------------
+
+    maior_out = max(out_degree.items(), key=lambda x: x[1])
+    maior_in  = max(in_degree.items(),  key=lambda x: x[1])
+
+    resultado = {
+        "num_vertices": V,
+        "num_arestas": E,
+        "tipo": {
+            "dirigido": True,
+            "ponderado": True
+        },
+        "graus": {
+            "out_degree": out_degree,
+            "in_degree": in_degree,
+            "maior_out_degree": {
+                "vertice": maior_out[0],
+                "valor": maior_out[1]
+            },
+            "maior_in_degree": {
+                "vertice": maior_in[0],
+                "valor": maior_in[1]
+            }
+        }
+    }
+
+    # Salva arquivo
+    with open(caminho_out, "w", encoding="utf-8") as f:
+        json.dump(resultado, f, indent=4, ensure_ascii=False)
+
+    return resultado
+
+
+
 if __name__ == "__main__":
-    metricas_globais()
-    metricas_globais_microrregioes()
-    ego_network_metricas()
-    calcular_peso_caminho_enderecos()
-    gerar_csv_graus()
+    #metricas_globais()
+    #metricas_globais_microrregioes()
+    #ego_network_metricas()
+    #calcular_peso_caminho_enderecos()
+    #gerar_csv_graus()
+
+    resultado_parte2 = calcular_metricas_parte2()
+    print(json.dumps(resultado_parte2, indent=4, ensure_ascii=False))
     
     
 
