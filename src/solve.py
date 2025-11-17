@@ -2,7 +2,7 @@ import json
 import os
 from graphs.graph import carregar_lista_adjacencia
 from graphs.io import carregar_lista_adjacencia_parte2
-from graphs.algorithms import dijkstra_path
+from graphs.algorithms import dijkstra_path, bfs, dfs
 import pandas as pd
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -21,6 +21,8 @@ percurso_nova_descoberta_setubal = os.path.join(BASE_DIR, "../out/percurso_nova_
 # parte 2 - caminhos aereos
 caminho_out = os.path.join(BASE_DIR, "../out/parte2_metrics.json")
 caminho_csvFiltrado = ("../data/dataset_parte2/csvFiltrado.csv")
+
+caminho_out_bfsdfs = os.path.join(BASE_DIR, "../out/bfs_dfs_resultados.json")
 
 #####################################
 ## PARTE 1
@@ -230,6 +232,7 @@ def calcular_metricas_parte2(lista_adj = carregar_lista_adjacencia_parte2(caminh
     #---------------
 
     # set para evitar duplicatas
+    # já coloca todos os vértices que aparecem como origem
     vertices = set(lista_adj.keys())
     for origem, vizinhos in lista_adj.items():
         # percorre os vizinhos do vértice origem
@@ -297,7 +300,25 @@ def calcular_metricas_parte2(lista_adj = carregar_lista_adjacencia_parte2(caminh
 
     return resultado
 
+# função pra salvar o json
+def salvar_bfs_dfs_json(resultado):
+    with open(caminho_out_bfsdfs, "w", encoding="utf-8") as f:  
+        json.dump(resultado, f, indent=4, ensure_ascii=False)
 
+# função pra pegar os resultados do bfs e dfs
+def getResultadosBfsDfs(lista_adj):
+    fontes = ["abq", "acy", "cos"]
+
+    resultados = {
+        "bfs": {},
+        "dfs": {}
+    }
+
+    for f in fontes: 
+        resultados["bfs"][f] = bfs(lista_adj, f)
+        resultados["dfs"][f] = dfs(lista_adj, f)
+
+    return resultados
 
 if __name__ == "__main__":
     #metricas_globais()
@@ -306,11 +327,11 @@ if __name__ == "__main__":
     #calcular_peso_caminho_enderecos()
     #gerar_csv_graus()
 
-    resultado_parte2 = calcular_metricas_parte2()
-    print(json.dumps(resultado_parte2, indent=4, ensure_ascii=False))
-    
-    
+    lista_adj = carregar_lista_adjacencia_parte2(caminho_csvFiltrado)
 
+    resultados = getResultadosBfsDfs(lista_adj)
+    salvar_bfs_dfs_json(resultados)
 
+    print(json.dumps(resultados, indent=4, ensure_ascii=False))
 
     
