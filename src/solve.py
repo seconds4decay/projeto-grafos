@@ -23,6 +23,7 @@ caminho_out = os.path.join(BASE_DIR, "../out/parte2_metrics.json")
 caminho_csvFiltrado = ("../data/dataset_parte2/csvFiltrado.csv")
 
 caminho_out_bfsdfs = os.path.join(BASE_DIR, "../out/bfs_dfs_resultados.json")
+caminho_out_dijkstra = os.path.join(BASE_DIR, "../out/dijkstra_resultados.json")
 
 #####################################
 ## PARTE 1
@@ -320,6 +321,42 @@ def getResultadosBfsDfs(lista_adj):
 
     return resultados
 
+# função para salvar o json
+def salvar_dijkstra_json(resultado):
+    with open(caminho_out_dijkstra, "w", encoding="utf-8") as f:
+        json.dump(resultado, f, indent=4, ensure_ascii=False)
+
+# função para pegar os resultados de dijkstra 
+def getResultadosDijkstra(lista_adj):
+    pares = [
+        ("dfw", "mia"),
+        ("lax", "ord"),
+        ("bos", "sea"),
+        ("phx", "den"),
+        ("atl", "iah")
+    ]
+
+    resultados = {}
+
+    for origem, destino in pares:
+        custo, caminho = dijkstra_path(lista_adj, origem, destino)
+
+        if caminho == -1:
+            caminho_str = "inexistente"
+            custo = "-"
+        else:
+            caminho_str = " -> ".join(list(caminho))
+            
+        resultados[f"{origem}_para_{destino}"] = {
+            "origem": origem,
+            "destino": destino,
+            "custo": custo,
+            "caminho": caminho_str
+        }
+
+    salvar_dijkstra_json(resultados)
+    return resultados
+
 if __name__ == "__main__":
     #metricas_globais()
     #metricas_globais_microrregioes()
@@ -329,9 +366,10 @@ if __name__ == "__main__":
 
     lista_adj = carregar_lista_adjacencia_parte2(caminho_csvFiltrado)
 
-    resultados = getResultadosBfsDfs(lista_adj)
-    salvar_bfs_dfs_json(resultados)
+    resultados_bfsdfs = getResultadosBfsDfs(lista_adj)
+    salvar_bfs_dfs_json(resultados_bfsdfs)
 
-    print(json.dumps(resultados, indent=4, ensure_ascii=False))
+    resultados_dijkstra = getResultadosDijkstra(lista_adj)
+    salvar_bfs_dfs_json(resultados_dijkstra)
 
     
