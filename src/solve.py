@@ -370,6 +370,6 @@ if __name__ == "__main__":
     salvar_bfs_dfs_json(resultados_bfsdfs)
 
     resultados_dijkstra = getResultadosDijkstra(lista_adj)
-    salvar_bfs_dfs_json(resultados_dijkstra)
+    salvar_dijkstra_json(resultados_dijkstra)
 
     
