@@ -180,7 +180,8 @@ def bellman_ford(vertices, arestas, v_inicio):
         if resultado[v_origem] != sys.maxsize and (resultado[v_origem] + peso) < resultado[v_destino]:
 
             # o algoritmo retorna um número negativo para indicar a existência de um ciclo negativo no grafo
-            resultado = -1
+            resultado = -1  
+            break
 
     #retorna o resultado
     return resultado

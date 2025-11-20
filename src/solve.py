@@ -2,7 +2,7 @@ import json
 import os
 from graphs.graph import carregar_lista_adjacencia
 from graphs.io import carregar_lista_adjacencia_parte2
-from graphs.algorithms import dijkstra_path, bfs, dfs
+from graphs.algorithms import dijkstra_path, bfs, dfs, bellman_ford
 import pandas as pd
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -24,6 +24,7 @@ caminho_csvFiltrado = ("../data/dataset_parte2/csvFiltrado.csv")
 
 caminho_out_bfsdfs = os.path.join(BASE_DIR, "../out/bfs_dfs_resultados.json")
 caminho_out_dijkstra = os.path.join(BASE_DIR, "../out/dijkstra_resultados.json")
+caminho_out_bellman = os.path.join(BASE_DIR, "../out/bellman_ford_resultados.json")
 
 #####################################
 ## PARTE 1
@@ -226,6 +227,7 @@ def calcular_peso_caminho_enderecos(lista_adjacencia = carregar_lista_adjacencia
 ## PARTE 2
 #####################################
 
+# Função para calcular as métricas do grafo direcionado e ponderado da parte 2
 def calcular_metricas_parte2(lista_adj = carregar_lista_adjacencia_parte2(caminho_csvFiltrado)):
     
     #---------------
@@ -357,6 +359,60 @@ def getResultadosDijkstra(lista_adj):
     salvar_dijkstra_json(resultados)
     return resultados
 
+# Função para salvar o json
+def salvar_bellman_json(resultado):
+    with open(caminho_out_bellman, "w", encoding="utf-8") as f:
+        json.dump(resultado, f, indent=4, ensure_ascii=False)
+
+# Função para pegar os resultados do Bellman-Ford
+def getResultadosBellmanFord():
+    
+    resultados = {}
+
+    # Caso 1: Sem ciclo negativo
+    vertices1 = ["dfw","mia","ord"] 
+
+    arestas1 = [
+        ("dfw", "mia", 120),
+        ("mia", "ord", -20),
+        ("dfw", "ord", 50)
+    ]
+
+    bf1 = bellman_ford(vertices1, arestas1, "dfw")
+
+    resultados["caso1_sem_ciclo_negativo"] = {
+        "vertices": vertices1,
+        "arestas": arestas1,
+        "origem": "dfw",
+        "resultados": bf1
+    }
+
+    # Caso 2: Com ciclo negativo
+    vertices2 = ["lax", "phx", "sea"]
+    arestas2 = [
+        ("lax", "phx", 3),
+        ("phx", "sea", -10),
+        ("sea", "lax", 2)
+    ]
+    print("Oi, executando Bellman-Ford com ciclo negativo...")
+    bf2 = bellman_ford(vertices2, arestas2, "lax")
+
+    if bf2 == -1:
+        print("Ciclo negativo detectado!")
+    else:
+        print("Distâncias:", bf2)
+
+    resultados["caso2_com_ciclo_negativo"] = {
+        "vertices": vertices2,
+        "arestas": arestas2,
+        "origem": "lax",
+        "resultados": bf2
+    }
+
+    salvar_bellman_json(resultados)
+    
+    return resultados
+
 if __name__ == "__main__":
     #metricas_globais()
     #metricas_globais_microrregioes()
@@ -372,4 +428,6 @@ if __name__ == "__main__":
     resultados_dijkstra = getResultadosDijkstra(lista_adj)
     salvar_dijkstra_json(resultados_dijkstra)
 
+    resultados_bellman = getResultadosBellmanFord()
+    salvar_bellman_json(resultados_bellman)
     

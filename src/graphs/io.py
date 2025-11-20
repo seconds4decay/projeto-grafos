@@ -113,6 +113,7 @@ def filtrar_dataset_2024_e_gerar_csv(caminho_entrada: str, caminho_saida: str):
                 # Escreve no arquivo de saída
                 escritor.writerow([vertice_origem, vertice_destino, peso])
 
+# Função pra transformar o csv filtrado em uma lista de adjacência
 def carregar_lista_adjacencia_parte2(caminho_csv: str) -> dict:
     grafo = defaultdict(list)
 

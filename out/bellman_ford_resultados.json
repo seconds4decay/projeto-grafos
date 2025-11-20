@@ -1,0 +1,58 @@
+{
+    "caso1_sem_ciclo_negativo": {
+        "vertices": [
+            "dfw",
+            "mia",
+            "ord"
+        ],
+        "arestas": [
+            [
+                "dfw",
+                "mia",
+                120
+            ],
+            [
+                "mia",
+                "ord",
+                -20
+            ],
+            [
+                "dfw",
+                "ord",
+                50
+            ]
+        ],
+        "origem": "dfw",
+        "resultados": {
+            "dfw": 0,
+            "mia": 120,
+            "ord": 50
+        }
+    },
+    "caso2_com_ciclo_negativo": {
+        "vertices": [
+            "lax",
+            "phx",
+            "sea"
+        ],
+        "arestas": [
+            [
+                "lax",
+                "phx",
+                3
+            ],
+            [
+                "phx",
+                "sea",
+                -10
+            ],
+            [
+                "sea",
+                "lax",
+                2
+            ]
+        ],
+        "origem": "lax",
+        "resultados": -1
+    }
+}
