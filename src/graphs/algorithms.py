@@ -246,6 +246,9 @@ def dfs(lista_adjacencia, v_inicio):
     # cria-se e popula-se um dicionário (vertice -> estado de visitação) para determinar se um vertice já foi ou não visitado pelo algoritmo
     visitado = {}
 
+    # um conjunto auxiliar para rastrear quem está na pilha de execução agora, usa isso para pegar ciclos e saber o tipo da aresta.
+    pilha_recursao = set()
+
     vertices = lista_adjacencia.keys()
     for vertice in vertices:
         visitado[vertice] = False
@@ -255,13 +258,14 @@ def dfs(lista_adjacencia, v_inicio):
     visitado[v_inicio] = True
 
     # início da chamada recursiva da função auxiliar de "mergulho" na profundidade do grafo
-    dfs_aux(v_inicio, visitado, lista_adjacencia, resultado)
+    # adicionado o parametro de pilha_recursao
+    dfs_aux(v_inicio, visitado, lista_adjacencia, resultado,pilha_recursao)
 
     # retorna o resultado
     return resultado
 
 
-def dfs_aux(vertice, visitado, lista_adjacencia, resultado):
+def dfs_aux(vertice, visitado, lista_adjacencia, resultado,pilha_recursao):
 
     # Definição dos parâmetros:
     #   vertice -> vértice que está sendo visitado pelo algoritmo
@@ -271,6 +275,8 @@ def dfs_aux(vertice, visitado, lista_adjacencia, resultado):
 
     # o vértice é marcado como visitado pelo algoritmo e adicionado ao resultado
     visitado[vertice] = True
+    #adiciona o vertice atual a pilha
+    pilha_recursao.add(vertice)
     resultado.append(vertice)
 
     # para cada vértice adjacente ao vértice visitado
@@ -279,6 +285,19 @@ def dfs_aux(vertice, visitado, lista_adjacencia, resultado):
             # se o vértice adjacente ainda não foi visitado
             if visitado[v_adjacente] == False:
 
+                # Se não foi visitado, é uma aresta de árvore (caminho novo)
+                print(f"[Aresta de Árvore] {vertice} -> {v_adjacente}")
+
                 # ocorre a chamada recursiva da função auxiliar, iniciando o processo de visitação com o vértice adjacente
-                dfs_aux(v_adjacente, visitado, lista_adjacencia, resultado)
+                dfs_aux(v_adjacente, visitado, lista_adjacencia, resultado,pilha_recursao)
+            else:
+                # Se o vizinho estiver na pilha de recursão, é um ancestral. Isso é uma ARESTA DE RETORNO (CICLO)
+                if v_adjacente in pilha_recursao:
+                    print(f"[Aresta de Retorno/Ciclo] {vertice} -> {v_adjacente} <--- CICLO DETECTADO")
+                
+                # Se já foi visitado mas não está na pilha, é aresta de cruzamento ou avanço
+                else:
+                    print(f"[Aresta de Cruzamento/Avanço] {vertice} -> {v_adjacente}")
+    # Remove o vértice da pilha antes de voltar para o nível anterior
+    pilha_recursao.remove(vertice)
 

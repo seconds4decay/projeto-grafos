@@ -1,0 +1,88 @@
+{
+    "dataset": "Dataset Parte 2",
+    "resultados": [
+        {
+            "algoritmo": "BFS",
+            "origem": "dal",
+            "tempo_execucao": "0.000081",
+            "tamanho": 87
+        },
+        {
+            "algoritmo": "BFS",
+            "origem": "abq",
+            "tempo_execucao": "0.000056",
+            "tamanho": 96
+        },
+        {
+            "algoritmo": "BFS",
+            "origem": "dfw",
+            "tempo_execucao": "0.000041",
+            "tamanho": 87
+        },
+        {
+            "algoritmo": "DFS",
+            "origem": "dal",
+            "tempo_execucao": "0.033115",
+            "tamanho": 87
+        },
+        {
+            "algoritmo": "DFS",
+            "origem": "abq",
+            "tempo_execucao": "0.042675",
+            "tamanho": 96
+        },
+        {
+            "algoritmo": "DFS",
+            "origem": "dfw",
+            "tempo_execucao": "0.031844",
+            "tamanho": 87
+        },
+        {
+            "algoritmo": "Dijkstra",
+            "origem": "dal",
+            "destino": "rdm",
+            "tempo_execucao": "0.000207",
+            "custo_total": 2497.0
+        },
+        {
+            "algoritmo": "Dijkstra",
+            "origem": "abq",
+            "destino": "rdm",
+            "tempo_execucao": "0.000145",
+            "custo_total": 2933.0
+        },
+        {
+            "algoritmo": "Dijkstra",
+            "origem": "dfw",
+            "destino": "rdm",
+            "tempo_execucao": "0.000106",
+            "custo_total": 2497.0
+        },
+        {
+            "algoritmo": "Dijkstra",
+            "origem": "phx",
+            "destino": "rdm",
+            "tempo_execucao": "0.000060",
+            "custo_total": 2882.0
+        },
+        {
+            "algoritmo": "Dijkstra",
+            "origem": "bwi",
+            "destino": "rdm",
+            "tempo_execucao": "0.000045",
+            "custo_total": 883.0
+        },
+        {
+            "algoritmo": "Bellman-Ford",
+            "caso": "Peso Negativo (Sem Ciclo)",
+            "tempo_execucao": "0.000010",
+            "status_validacao": "OK"
+        },
+        {
+            "algoritmo": "Bellman-Ford",
+            "caso": "Ciclo Negativo",
+            "tempo_execucao": "0.000003",
+            "status_validacao": "OK"
+        }
+    ]
+}

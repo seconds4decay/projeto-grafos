@@ -4,6 +4,8 @@ from graphs.graph import carregar_lista_adjacencia
 from graphs.io import carregar_lista_adjacencia_parte2
 from graphs.algorithms import dijkstra_path, bfs, dfs, bellman_ford
 import pandas as pd
+import time
+import matplotlib.pyplot as plt
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -20,7 +22,7 @@ percurso_nova_descoberta_setubal = os.path.join(BASE_DIR, "../out/percurso_nova_
 
 # parte 2 - caminhos aereos
 caminho_out = os.path.join(BASE_DIR, "../out/parte2_metrics.json")
-caminho_csvFiltrado = ("../data/dataset_parte2/csvFiltrado.csv")
+caminho_csvFiltrado = os.path.join(BASE_DIR, "../data/dataset_parte2/csvFiltrado.csv")
 
 caminho_out_bfsdfs = os.path.join(BASE_DIR, "../out/bfs_dfs_resultados.json")
 caminho_out_dijkstra = os.path.join(BASE_DIR, "../out/dijkstra_resultados.json")
@@ -413,6 +415,162 @@ def getResultadosBellmanFord():
     
     return resultados
 
+def gerar_grafico_distribuicao_graus(lista_adj):
+    #---------------
+    # Função pra gerar o grafico de graus de saída
+    #---------------
+
+    print("Gerando grafico de distribuição de graus.")
+
+    # Para cada vizinho na lista de adjacencia, aumenta o grau de saida
+
+    graus_saida = []
+    for vizinhos in lista_adj.values():
+        graus_saida.append(len(vizinhos))
+    
+    plt.figure(figsize=(10, 6))
+    
+    plt.hist(graus_saida, bins=30, color='skyblue', edgecolor='black')
+    
+    plt.title("Distribuição de Graus de Saída (Out-Degree) - Dataset Voos")
+    plt.xlabel("Grau de Saída (Nº de Destinos)")
+    plt.ylabel("Frequência (Nº de Aeroportos)")
+    plt.grid(True, alpha=0.3)
+    
+    caminho_img = os.path.join(BASE_DIR, "../out/distribuicao_graus.png")
+    os.makedirs(os.path.dirname(caminho_img), exist_ok=True)
+    
+    plt.savefig(caminho_img)
+    print(f"Visualização salva em: {caminho_img}")
+    plt.close()
+
+def executar_metrica_desempenho(lista_adj):
+    #---------------
+    # Função que executa os algortimos medindo o tempo e gerando o parte2_report.json
+    #---------------
+
+    report = {
+        "dataset": "Dataset Parte 2",
+        "resultados": []
+    }
+    
+    vertices = list(lista_adj.keys())
+    
+    # BFS/DFS a partir de >= 3 fontes distintas
+    fontes_bfs_dfs = vertices[:3] if len(vertices) >= 3 else vertices
+
+    # Dijkstra com pesos >= 0 (>= 5 pares origem-destino)
+    fontes_dijkstra = vertices[:5] if len(vertices) >= 5 else vertices
+    
+    # Para o Dijkstra, defini o último vértice da lista
+    destino_dijkstra = vertices[-1] if vertices else None
+
+    print("\n--- Iniciando Comparação de Desempenho dos Algoritmos ---")
+
+    # 1. Medindo o algoritmo BFS 
+    print(f"Rodando BFS para {len(fontes_bfs_dfs)} fontes.")
+    for fonte in fontes_bfs_dfs:
+        inicio = time.perf_counter()
+        res = bfs(lista_adj, fonte)
+        fim = time.perf_counter()
+        
+        report["resultados"].append({
+            "algoritmo": "BFS",
+            "origem": fonte,
+            "tempo_execucao": f"{fim - inicio:.6f}",
+            "tamanho": len(res)
+        })
+
+    # 2. Medindo o algoritmo DFS 
+    print(f"Rodando DFS para {len(fontes_bfs_dfs)} fontes.")
+    for fonte in fontes_bfs_dfs:
+        inicio = time.perf_counter()
+        res = dfs(lista_adj, fonte)
+        fim = time.perf_counter()
+        
+        report["resultados"].append({
+            "algoritmo": "DFS",
+            "origem": fonte,
+            "tempo_execucao": f"{fim - inicio:.6f}",
+            "tamanho": len(res)
+        })
+
+    # 3. Medindo o algoritmo Dijkstra
+    if destino_dijkstra:
+        print(f"Rodando Dijkstra para {len(fontes_dijkstra)} fontes.")
+        for fonte in fontes_dijkstra:
+            inicio = time.perf_counter()
+            res = dijkstra_path(lista_adj, fonte, destino_dijkstra) 
+            fim = time.perf_counter()
+            
+            # Dijkstra vai retornar (custo, caminho) ou -1/infinito
+            custo = res[0] if isinstance(res, tuple) else res
+            
+            report["resultados"].append({
+                "algoritmo": "Dijkstra",
+                "origem": fonte,
+                "destino": destino_dijkstra,
+                "tempo_execucao": f"{fim - inicio:.6f}",
+                "custo_total": custo
+            })
+
+    # 4. Medindo Bellman-Ford
+    print("Executando Bellman-Ford (Casos de Controle).")
+    
+    # Caso 1: Peso Negativo sem ciclo negativo 
+    v_bf1 = ["dfw", "mia", "ord"]
+    e_bf1 = [
+        ("dfw", "mia", 120),
+        ("mia", "ord", -20),
+        ("dfw", "ord", 50)
+    ]
+    # DFW -> MIA (120) -> ORD (-20) = 100
+    # DFW -> ORD (50)
+    # Menor caminho é 50.
+    
+    inicio = time.perf_counter()
+    res_bf1 = bellman_ford(v_bf1, e_bf1, "dfw")
+    fim = time.perf_counter()
+    
+    # Verificando se calculou (retornou dict) e se o valor pra 'ord' esta correto (50)
+    correto = "FALHA"
+    if isinstance(res_bf1, dict) and res_bf1.get("ord") == 50:
+        correto = "OK"
+
+    report["resultados"].append({
+        "algoritmo": "Bellman-Ford",
+        "caso": "Peso Negativo (Sem Ciclo)",
+        "tempo_execucao": f"{fim - inicio:.6f}",
+        "status_validacao": correto
+    })
+
+    #  Caso 2: Ciclo Negativo detectado 
+    v_bf2 = ["lax", "phx", "sea"]
+    e_bf2 = [
+        ("lax", "phx", 3),
+        ("phx", "sea", -10),
+        ("sea", "lax", 2)
+    ] 
+    # Ciclo: 3 - 10 + 2 = -5
+    
+    inicio = time.perf_counter()
+    res_bf2 = bellman_ford(v_bf2, e_bf2, "lax")
+    fim = time.perf_counter()
+    
+    # Deve retornar a flag (no caso -1) indicando ciclo negativo
+    report["resultados"].append({
+        "algoritmo": "Bellman-Ford",
+        "caso": "Ciclo Negativo",
+        "tempo_execucao": f"{fim - inicio:.6f}",
+        "status_validacao": "OK" if res_bf2 == -1 else "FALHA"
+    })
+
+    # Salvar JSON final
+    caminho_report = os.path.join(BASE_DIR, "../out/parte2_report.json")
+    with open(caminho_report, "w", encoding="utf-8") as f:
+        json.dump(report, f, indent=4)
+    print(f"Relatório de desempenho salvo em: {caminho_report}")
+
 if __name__ == "__main__":
     #metricas_globais()
     #metricas_globais_microrregioes()
@@ -430,4 +588,8 @@ if __name__ == "__main__":
 
     resultados_bellman = getResultadosBellmanFord()
     salvar_bellman_json(resultados_bellman)
+
+    gerar_grafico_distribuicao_graus(lista_adj)
+
+    executar_metrica_desempenho(lista_adj)
     
