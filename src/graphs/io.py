@@ -4,6 +4,10 @@ import unicodedata
 import re
 from collections import defaultdict
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+caminho_csvFiltrado = os.path.join(BASE_DIR, "../../data/dataset_parte2/csvFiltrado.csv")
+
+
 def normalizar_nome(nome: str) -> str:
     # Remove acentos, espaços extras e transforma em minúsculas
     nome = unicodedata.normalize("NFKD", nome)
@@ -114,7 +118,7 @@ def filtrar_dataset_2024_e_gerar_csv(caminho_entrada: str, caminho_saida: str):
                 escritor.writerow([vertice_origem, vertice_destino, peso])
 
 # Função pra transformar o csv filtrado em uma lista de adjacência
-def carregar_lista_adjacencia_parte2(caminho_csv: str) -> dict:
+def carregar_lista_adjacencia_parte2(caminho_csv: str = caminho_csvFiltrado) -> dict:
     grafo = defaultdict(list)
 
     with open(caminho_csv, newline='', encoding="utf-8") as f:

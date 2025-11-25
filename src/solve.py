@@ -11,6 +11,8 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 caminho_graus = os.path.join(BASE_DIR, "../out/graus.csv")
 
+caminho_bairro_maior_grau = os.path.join(BASE_DIR, "../out/bairro_maior_grau.json")
+
 caminho_bairros_unique = os.path.join(BASE_DIR, "../data/bairros_unique.csv")
 caminho_recife_global = os.path.join(BASE_DIR, "../out/recife_global.json")
 caminho_microrregioes = os.path.join(BASE_DIR, "../out/microrregioes.json")
@@ -50,9 +52,24 @@ def gerar_csv_graus(lista_adjacencia = carregar_lista_adjacencia()):
 
     with open(caminho_graus, "w", encoding="utf-8") as f:
         pd.DataFrame(resultado).to_csv(f, index=False)
-   
 
-def metricas_globais(lista_adjacencia = carregar_lista_adjacencia()):
+# Retorna e escreve um json com o bairro com maior grau
+def obter_bairro_com_maior_grau():
+    df = pd.read_csv(caminho_graus)
+
+    df = df.sort_values('grau', ascending=False)
+
+    alvo = df.iloc[0]
+
+    alvo_json = {
+        "bairro": alvo['bairro'],
+        "grau": int(alvo['grau']) 
+    }
+
+    with open(caminho_bairro_maior_grau, "w", encoding="utf-8") as f:
+        json.dump(alvo_json, f, indent=4, ensure_ascii=False)
+
+def metricas_globais(lista_adjacencia = carregar_lista_adjacencia(), write=True):
     # Ordem (nº de vértices)
     V = len(lista_adjacencia)
 
@@ -72,10 +89,11 @@ def metricas_globais(lista_adjacencia = carregar_lista_adjacencia()):
         "densidade": f"{densidade:.2f}"
     }
 
-    with open(caminho_recife_global, "w", encoding="utf-8") as f:
-        json.dump(metricas_globais_json, f, indent=4, ensure_ascii=False)
+    if(write):
+        with open(caminho_recife_global, "w", encoding="utf-8") as f:
+            json.dump(metricas_globais_json, f, indent=4, ensure_ascii=False)
 
-        f.close()
+            f.close()
 
     return metricas_globais_json
 
@@ -110,7 +128,7 @@ def metricas_globais_microrregioes(lista_adjacencia = carregar_lista_adjacencia(
     # Para cada microregião, obtém o subgrafo e calcula as métricas globais do subgrafo
     for micro in microrregioes:
         subgrafo = obter_subgrafo_por_microrregiao(lista_adjacencia, df, micro)
-        metricas = metricas_globais(subgrafo)
+        metricas = metricas_globais(subgrafo, False)
         
         resultados[micro] = metricas
 
@@ -571,12 +589,13 @@ def executar_metrica_desempenho(lista_adj):
         json.dump(report, f, indent=4)
     print(f"Relatório de desempenho salvo em: {caminho_report}")
 
-if __name__ == "__main__":
-    #metricas_globais()
-    #metricas_globais_microrregioes()
-    #ego_network_metricas()
-    #calcular_peso_caminho_enderecos()
-    #gerar_csv_graus()
+def main_solve():
+    metricas_globais()
+    metricas_globais_microrregioes()
+    ego_network_metricas()
+    calcular_peso_caminho_enderecos()
+    gerar_csv_graus()
+    obter_bairro_com_maior_grau()
 
     lista_adj = carregar_lista_adjacencia_parte2(caminho_csvFiltrado)
 
@@ -592,4 +611,9 @@ if __name__ == "__main__":
     gerar_grafico_distribuicao_graus(lista_adj)
 
     executar_metrica_desempenho(lista_adj)
+
+    calcular_metricas_parte2(lista_adj)
+
+if __name__ == "__main__":
+    main_solve()
     

@@ -4,7 +4,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from graphs.graph import carregar_lista_adjacencia
-from graphs.algorithms import dijkstra_path
+from graphs.io import carregar_lista_adjacencia_parte2
+from solve import gerar_csv_graus, ego_network_metricas, calcular_peso_caminho_enderecos
 
 from pyvis.network import Network
 from collections import deque
@@ -18,6 +19,9 @@ bairros_microrregiao_csv = os.path.join(BASE_DIR, "../data/bairros_unique.csv")
 
 caminho_graus_csv = os.path.join(BASE_DIR, "../out/graus.csv")
 
+gerar_csv_graus()
+ego_network_metricas()
+calcular_peso_caminho_enderecos()
 
 def string_to_list(string):
     return string.strip().split(" -> ")
@@ -91,7 +95,7 @@ def ranking_densidade_ego_por_microrregiao(df_ego_bairro = pd.read_csv(ego_bairr
         plt.text(v + 0.005, i, f"{v:.3f}", va='center')
 
     plt.xlabel("Densidade Ego Média")
-    plt.title("Top 10 Microrregiões por Densidade Ego")
+    plt.title("Ranking de Microrregiões por Densidade Ego")
     plt.gca().invert_yaxis()
     plt.tight_layout()
     plt.savefig(os.path.join(BASE_DIR, "../out/ranking_densidade_ego_por_microrregiao.png"))
@@ -233,7 +237,7 @@ def visualizar_grafo(
             // destaca nós
             p.forEach(n => {{
                 let node = network.body.nodes[n];
-                node.setOptions({{ color:"yellow", size:35 }});
+                node.setOptions({{ color:"purple", size:35 }});
             }});
 
             // destaca arestas
@@ -241,7 +245,7 @@ def visualizar_grafo(
                 let a = p[i], b = p[i+1];
                 Object.values(network.body.edges).forEach(e => {{
                     if ((e.fromId===a && e.toId===b) || (e.fromId===b && e.toId===a)) {{
-                        e.setOptions({{ color:"yellow"}});
+                        e.setOptions({{ color:"purple"}});
                     }}
                 }});
             }}
@@ -271,6 +275,12 @@ def visualizar_grafo(
             <label style="font-weight:bold;">Realçar Caminho:</label>
             <button onclick="highlightPath('nova descoberta', 'setubal')">
                 Nova Descoberta → Setúbal
+            </button>
+        </div>
+        <div style="padding:10px;">
+            <label style="font-weight:bold;">Trocar Grafo:</label>
+            <button onclick="window.location.href = './digrafo_interativo.html'">
+                Rotas Aereas EUA
             </button>
         </div>
         <div style="display:flex; gap:20px; flex-direction:row;">
@@ -347,9 +357,178 @@ def visualizar_grafo(
 
     print(f"Grafo salvo em {output_html}")
 
-if __name__ == "__main__":
+def visualizar_digrafo(
+    lista_adjacencia=carregar_lista_adjacencia_parte2(),
+    output_html="out/digrafo_interativo.html",
+):
+    # converte
+    vertices = list(lista_adjacencia.keys())
+    arestas = []
+    for o, viz in lista_adjacencia.items():
+        for d, p in viz:
+            arestas.append([o, d, p])
+
+    net = Network(height="850px", width="100%", directed=True)
+    net.force_atlas_2based()
+
+    # nós
+    for v in vertices:
+        cor = "rgb(80, 163, 199)"
+        net.add_node(v, label=v, color=cor, originalColor=cor, size=18)
+
+    # arestas dirigidas
+    for o, d, p in arestas:
+        net.add_edge(
+            o,
+            d,
+            value=p,
+            title=f"Peso {p}",
+            arrows="to",
+            color="rgba(80, 163, 199, 0.5)",
+            originalColor="rgba(80, 163, 199, 0.5)"
+        )
+
+    net.write_html(output_html)
+
+    script = f"""
+    <script>
+        
+        const bfVertices = {json.dumps(vertices)};
+        const bfArestas = {json.dumps(arestas)};
+
+        function bellmanFord(vertice, aresta, start, end) {{
+            let dist = {{}};
+            let parent = {{}};
+
+            vertice.forEach(v => {{
+                dist[v] = Infinity;
+                parent[v] = null;
+            }});
+
+            dist[start] = 0;
+
+            aresta = aresta.map(e => [e[0], e[1], Number(e[2])]);
+
+            for (let i = 0; i < vertice.length - 1; i++) {{
+                aresta.forEach(([u, v, w]) => {{
+                    if (dist[u] !== Infinity && dist[u] + w < dist[v]) {{
+                        dist[v] = dist[u] + w;
+                        parent[v] = u;
+                    }}
+                }});
+            }}
+
+            if (dist[end] === Infinity)
+                return {{ path: [], cost: Infinity }};
+
+            let path = [];
+            let cur = end;
+
+            while (cur !== null) {{
+                path.push(cur);
+                cur = parent[cur];
+            }}
+
+            path.reverse();
+            return {{ path, cost: dist[end] }};
+        }}
+
+        function highlightBF() {{
+            let s = document.getElementById("orig").value;
+            let t = document.getElementById("dest").value;
+
+            let result = bellmanFord(bfVertices, bfArestas, s, t);
+            let path = result.path;
+            let cost = result.cost;
+
+            if (path.length === 0) {{
+                alert("Sem caminho.");
+                document.getElementById("custo").textContent = "";
+                return;
+            }}
+
+            resetGraph();
+
+            path.forEach(n => {{
+                let node = network.body.nodes[n];
+                if (node) node.setOptions({{ color: "purple", size: 30 }});
+            }});
+
+            
+            let a = path[0];
+            let b = path[1];
+
+            Object.values(network.body.edges).forEach(e => {{
+                if (e.fromId === a && e.toId === b) {{
+                    e.setOptions({{ color: "purple" }});
+                }}
+            }});
+            
+
+            document.getElementById("custo").textContent = cost;
+        }}
+
+        function resetGraph() {{
+            Object.values(network.body.nodes).forEach(n => {{
+                n.setOptions({{
+                    color: n.options.color ? n.options.color : "rgb(80, 163, 199)",
+                    size: 18
+                }});
+            }});
+
+            Object.values(network.body.edges).forEach(e => {{
+                e.setOptions({{
+                    color: "rgba(80, 163, 199, 0.5)"
+                }});
+            }});
+        }}
+
+    </script>  
+    <div style="padding:10px; ">
+        <div style="padding:10px;">
+        Origem:
+        <select id="orig">
+            {"".join([f'<option value="{v}">{v}</option>' for v in vertices])}
+        </select>
+
+        Destino:
+        <select id="dest">
+            {"".join([f'<option value="{v}">{v}</option>' for v in vertices])}
+        </select>
+
+        <button onclick="highlightBF()">Menor Caminho (Bellman-Ford)</button>
+
+        <span style="margin-left:12px;font-weight:bold;">
+            Custo: <span id="custo"></span>
+        </span>
+        </div>
+        <div style="padding:10px;">
+            <label style="font-weight:bold;">Trocar Grafo:</label>
+            <button onclick="window.location.href = './grafo_interativo.html'">
+                Bairros de Recife
+            </button>
+        </div>
+    </div>  
+    """
+    
+    with open(output_html) as f:
+        html = f.read()
+
+    html = html.replace("</body>", script + "</body>")
+
+    with open(output_html, "w") as f:
+        f.write(html)
+
+    print("Digrafo salvo em:", output_html)
+
+
+def main_viz():
     plot_percurso_nova_descoberta_setubal()
     mapa_de_cores_por_grau()
     ranking_densidade_ego_por_microrregiao()
     visualizar_grafo()
+    visualizar_digrafo()
     histograma_graus()
+
+if __name__ == "__main__":
+    main_viz()

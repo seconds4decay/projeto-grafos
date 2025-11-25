@@ -7,8 +7,8 @@ sys.path.append("src/")
 
 from graphs.algorithms import dijkstra_path, bfs
 from graphs.graph import carregar_lista_adjacencia
-from solve import deque_to_string
-from viz import visualizar_grafo
+from solve import deque_to_string, main_solve
+from viz import visualizar_grafo, main_viz
 
 DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.join(DIR, "../")
@@ -46,7 +46,7 @@ def interactive_output(dataset_path, output_dir):
     output_path = os.path.join(output_dir, "grafo_interativo.html")
     visualizar_grafo(output_html=output_path)
 
-
+"""
 def main():
     parser = argparse.ArgumentParser(
         description="CLI para algoritmos de grafos sobre bairros do Recife"
@@ -145,6 +145,20 @@ def main():
     if args.alg not in ["BFS", "DIJKSTRA"]:
         print(f"Erro: algoritmo {args.alg} não reconhecido")
         return
+"""
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="CLI para algoritmos de grafos sobre bairros do Recife"
+    )
+
+    parser.add_argument("out", help="Gerar outputs em /out")
+
+    args = parser.parse_args()
+
+    if args.out:
+        main_solve()
+        main_viz()
 
 
 if __name__ == "__main__":

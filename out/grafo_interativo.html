@@ -237,7 +237,7 @@
             // destaca nós
             p.forEach(n => {
                 let node = network.body.nodes[n];
-                node.setOptions({ color:"yellow", size:35 });
+                node.setOptions({ color:"purple", size:35 });
             });
 
             // destaca arestas
@@ -245,7 +245,7 @@
                 let a = p[i], b = p[i+1];
                 Object.values(network.body.edges).forEach(e => {
                     if ((e.fromId===a && e.toId===b) || (e.fromId===b && e.toId===a)) {
-                        e.setOptions({ color:"yellow"});
+                        e.setOptions({ color:"purple"});
                     }
                 });
             }
@@ -275,6 +275,12 @@
             <label style="font-weight:bold;">Realçar Caminho:</label>
             <button onclick="highlightPath('nova descoberta', 'setubal')">
                 Nova Descoberta → Setúbal
+            </button>
+        </div>
+        <div style="padding:10px;">
+            <label style="font-weight:bold;">Trocar Grafo:</label>
+            <button onclick="window.location.href = './digrafo_interativo.html'">
+                Rotas Aereas EUA
             </button>
         </div>
         <div style="display:flex; gap:20px; flex-direction:row;">
