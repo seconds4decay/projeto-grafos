@@ -4,84 +4,84 @@
         {
             "algoritmo": "BFS",
             "origem": "dal",
-            "tempo_execucao": "0.000228",
+            "tempo_execucao": "0.000199",
             "tamanho": 87
         },
         {
             "algoritmo": "BFS",
             "origem": "abq",
-            "tempo_execucao": "0.000222",
+            "tempo_execucao": "0.000139",
             "tamanho": 96
         },
         {
             "algoritmo": "BFS",
             "origem": "dfw",
-            "tempo_execucao": "0.000118",
+            "tempo_execucao": "0.000086",
             "tamanho": 87
         },
         {
             "algoritmo": "DFS",
             "origem": "dal",
-            "tempo_execucao": "0.091212",
+            "tempo_execucao": "0.095250",
             "tamanho": 87
         },
         {
             "algoritmo": "DFS",
             "origem": "abq",
-            "tempo_execucao": "0.108886",
+            "tempo_execucao": "0.109786",
             "tamanho": 96
         },
         {
             "algoritmo": "DFS",
             "origem": "dfw",
-            "tempo_execucao": "0.113564",
+            "tempo_execucao": "0.083185",
             "tamanho": 87
         },
         {
             "algoritmo": "Dijkstra",
             "origem": "dal",
             "destino": "rdm",
-            "tempo_execucao": "0.000348",
+            "tempo_execucao": "0.000278",
             "custo_total": 2497.0
         },
         {
             "algoritmo": "Dijkstra",
             "origem": "abq",
             "destino": "rdm",
-            "tempo_execucao": "0.000286",
+            "tempo_execucao": "0.000262",
             "custo_total": 2933.0
         },
         {
             "algoritmo": "Dijkstra",
             "origem": "dfw",
             "destino": "rdm",
-            "tempo_execucao": "0.000438",
+            "tempo_execucao": "0.000229",
             "custo_total": 2497.0
         },
         {
             "algoritmo": "Dijkstra",
             "origem": "phx",
             "destino": "rdm",
-            "tempo_execucao": "0.000287",
+            "tempo_execucao": "0.000123",
             "custo_total": 2882.0
         },
         {
             "algoritmo": "Dijkstra",
             "origem": "bwi",
             "destino": "rdm",
-            "tempo_execucao": "0.000232",
+            "tempo_execucao": "0.000099",
             "custo_total": 883.0
         },
         {
             "algoritmo": "Bellman-Ford",
             "caso": "Peso Negativo (Sem Ciclo)",
-            "tempo_execucao": "0.000017",
+            "tempo_execucao": "0.000007",
             "status_validacao": "OK"
         },
         {
             "algoritmo": "Bellman-Ford",
             "caso": "Ciclo Negativo",
-            "tempo_execucao": "0.000007",
+            "tempo_execucao": "0.000004",
             "status_validacao": "OK"
         }
     ]

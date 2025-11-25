@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+caminho_out_folder = os.path.join(BASE_DIR, "../out/")
 caminho_graus = os.path.join(BASE_DIR, "../out/graus.csv")
 
 caminho_bairro_maior_grau = os.path.join(BASE_DIR, "../out/bairro_maior_grau.json")
@@ -50,6 +51,9 @@ def gerar_csv_graus(lista_adjacencia = carregar_lista_adjacencia()):
             "grau": grau
         })
 
+    if not os.path.exists(caminho_out_folder):
+        os.makedirs(caminho_out_folder)
+
     with open(caminho_graus, "w", encoding="utf-8") as f:
         pd.DataFrame(resultado).to_csv(f, index=False)
 
@@ -90,6 +94,9 @@ def metricas_globais(lista_adjacencia = carregar_lista_adjacencia(), write=True)
     }
 
     if(write):
+        if not os.path.exists(caminho_out_folder):
+            os.makedirs(caminho_out_folder)
+
         with open(caminho_recife_global, "w", encoding="utf-8") as f:
             json.dump(metricas_globais_json, f, indent=4, ensure_ascii=False)
 
