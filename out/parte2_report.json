@@ -4,72 +4,72 @@
         {
             "algoritmo": "BFS",
             "origem": "dal",
-            "tempo_execucao": "0.000199",
+            "tempo_execucao": "0.000192",
             "tamanho": 87
         },
         {
             "algoritmo": "BFS",
             "origem": "abq",
-            "tempo_execucao": "0.000139",
+            "tempo_execucao": "0.000100",
             "tamanho": 96
         },
         {
             "algoritmo": "BFS",
             "origem": "dfw",
-            "tempo_execucao": "0.000086",
+            "tempo_execucao": "0.000083",
             "tamanho": 87
         },
         {
             "algoritmo": "DFS",
             "origem": "dal",
-            "tempo_execucao": "0.095250",
+            "tempo_execucao": "0.075102",
             "tamanho": 87
         },
         {
             "algoritmo": "DFS",
             "origem": "abq",
-            "tempo_execucao": "0.109786",
+            "tempo_execucao": "0.091666",
             "tamanho": 96
         },
         {
             "algoritmo": "DFS",
             "origem": "dfw",
-            "tempo_execucao": "0.083185",
+            "tempo_execucao": "0.070646",
             "tamanho": 87
         },
         {
             "algoritmo": "Dijkstra",
             "origem": "dal",
             "destino": "rdm",
-            "tempo_execucao": "0.000278",
+            "tempo_execucao": "0.000303",
             "custo_total": 2497.0
         },
         {
             "algoritmo": "Dijkstra",
             "origem": "abq",
             "destino": "rdm",
-            "tempo_execucao": "0.000262",
+            "tempo_execucao": "0.000215",
             "custo_total": 2933.0
         },
         {
             "algoritmo": "Dijkstra",
             "origem": "dfw",
             "destino": "rdm",
-            "tempo_execucao": "0.000229",
+            "tempo_execucao": "0.000173",
             "custo_total": 2497.0
         },
         {
             "algoritmo": "Dijkstra",
             "origem": "phx",
             "destino": "rdm",
-            "tempo_execucao": "0.000123",
+            "tempo_execucao": "0.000107",
             "custo_total": 2882.0
         },
         {
             "algoritmo": "Dijkstra",
             "origem": "bwi",
             "destino": "rdm",
-            "tempo_execucao": "0.000099",
+            "tempo_execucao": "0.000088",
             "custo_total": 883.0
         },
         {

@@ -19,6 +19,8 @@ bairros_microrregiao_csv = os.path.join(BASE_DIR, "../data/bairros_unique.csv")
 
 caminho_graus_csv = os.path.join(BASE_DIR, "../out/graus.csv")
 
+caminho_csvFiltrado = os.path.join(BASE_DIR, "../data/dataset_parte2/csvFiltrado.csv")
+
 gerar_csv_graus()
 ego_network_metricas()
 calcular_peso_caminho_enderecos()
@@ -521,14 +523,46 @@ def visualizar_digrafo(
 
     print("Digrafo salvo em:", output_html)
 
+def gerar_grafico_distribuicao_graus(lista_adj):
+    #---------------
+    # Função pra gerar o grafico de graus de saída
+    #---------------
+
+    print("Gerando grafico de distribuição de graus.")
+
+    # Para cada vizinho na lista de adjacencia, aumenta o grau de saida
+
+    graus_saida = []
+    for vizinhos in lista_adj.values():
+        graus_saida.append(len(vizinhos))
+    
+    plt.figure(figsize=(10, 6))
+    
+    plt.hist(graus_saida, bins=30, color='skyblue', edgecolor='black')
+    
+    plt.title("Distribuição de Graus de Saída (Out-Degree) - Dataset Voos")
+    plt.xlabel("Grau de Saída (Nº de Destinos)")
+    plt.ylabel("Frequência (Nº de Aeroportos)")
+    plt.grid(True, alpha=0.3)
+    
+    caminho_img = os.path.join(BASE_DIR, "../out/distribuicao_graus.png")
+    os.makedirs(os.path.dirname(caminho_img), exist_ok=True)
+    
+    plt.savefig(caminho_img)
+    print(f"Visualização salva em: {caminho_img}")
+    plt.close()
 
 def main_viz():
+    lista_adj = carregar_lista_adjacencia_parte2(caminho_csvFiltrado)
+
     plot_percurso_nova_descoberta_setubal()
     mapa_de_cores_por_grau()
     ranking_densidade_ego_por_microrregiao()
     visualizar_grafo()
     visualizar_digrafo()
     histograma_graus()
+
+    gerar_grafico_distribuicao_graus(lista_adj)
 
 if __name__ == "__main__":
     main_viz()

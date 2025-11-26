@@ -50,7 +50,6 @@ def dijkstra(lista_adjacencia, v_inicio):
     # retorna o resultado
     return resultado
 
-
 def dijkstra_path(lista_adjacencia, v_inicio, v_destino):
 
     # Definição dos parâmetros:
@@ -107,8 +106,8 @@ def dijkstra_path(lista_adjacencia, v_inicio, v_destino):
                 heapq.heappush(min_heap, [distancia + peso, v_adjacente])
 
     # caso não exista um caminho para chegar o vértice de destino partindo do vértice de início, o algoritmo retorna "infinito" e -1
-    if (resultado[vertice] == sys.maxsize or antecessor[v_destino] == None):
-        return resultado[vertice], -1
+    if (resultado[v_destino] == sys.maxsize or antecessor[v_destino] == None):
+        return resultado[v_destino], -1
     
     # cria-se uma fila para gerar o caminho do vértice de início até o vértice de destino
     caminho = deque()
@@ -131,14 +130,12 @@ def dijkstra_path(lista_adjacencia, v_inicio, v_destino):
     # retorna o custo e o caminho mais curto para chegar ao vértice de destino partindo do vértice de início
     return resultado[v_destino], caminho
 
-
 def bellman_ford(vertices, arestas, v_inicio):
 
     # Definição dos parâmetros:
     #   vertices -> lista de vértices
     #   arestas -> lista de arestas onde cada elemento é uma lista organizada da seguinte forma: [vertice de origem, vertice de destino, peso]
     #   v_inicio -> vértice de início que será utilizado como referência para o começo do algoritmo
-
 
     # o resultado sai no seguinte formato: vértice -> distância mínima
     resultado = {}
@@ -185,7 +182,6 @@ def bellman_ford(vertices, arestas, v_inicio):
 
     #retorna o resultado
     return resultado
-
 
 def bfs(lista_adjacencia, v_inicio):
 
@@ -263,7 +259,6 @@ def dfs(lista_adjacencia, v_inicio):
 
     # retorna o resultado
     return resultado
-
 
 def dfs_aux(vertice, visitado, lista_adjacencia, resultado,pilha_recursao):
 

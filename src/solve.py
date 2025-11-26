@@ -421,7 +421,6 @@ def getResultadosBellmanFord():
         ("phx", "sea", -10),
         ("sea", "lax", 2)
     ]
-    print("Oi, executando Bellman-Ford com ciclo negativo...")
     bf2 = bellman_ford(vertices2, arestas2, "lax")
 
     if bf2 == -1:
@@ -439,35 +438,6 @@ def getResultadosBellmanFord():
     salvar_bellman_json(resultados)
     
     return resultados
-
-def gerar_grafico_distribuicao_graus(lista_adj):
-    #---------------
-    # Função pra gerar o grafico de graus de saída
-    #---------------
-
-    print("Gerando grafico de distribuição de graus.")
-
-    # Para cada vizinho na lista de adjacencia, aumenta o grau de saida
-
-    graus_saida = []
-    for vizinhos in lista_adj.values():
-        graus_saida.append(len(vizinhos))
-    
-    plt.figure(figsize=(10, 6))
-    
-    plt.hist(graus_saida, bins=30, color='skyblue', edgecolor='black')
-    
-    plt.title("Distribuição de Graus de Saída (Out-Degree) - Dataset Voos")
-    plt.xlabel("Grau de Saída (Nº de Destinos)")
-    plt.ylabel("Frequência (Nº de Aeroportos)")
-    plt.grid(True, alpha=0.3)
-    
-    caminho_img = os.path.join(BASE_DIR, "../out/distribuicao_graus.png")
-    os.makedirs(os.path.dirname(caminho_img), exist_ok=True)
-    
-    plt.savefig(caminho_img)
-    print(f"Visualização salva em: {caminho_img}")
-    plt.close()
 
 def executar_metrica_desempenho(lista_adj):
     #---------------
@@ -615,7 +585,6 @@ def main_solve():
     resultados_bellman = getResultadosBellmanFord()
     salvar_bellman_json(resultados_bellman)
 
-    gerar_grafico_distribuicao_graus(lista_adj)
 
     executar_metrica_desempenho(lista_adj)
 
