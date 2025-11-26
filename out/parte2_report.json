@@ -4,84 +4,105 @@
         {
             "algoritmo": "BFS",
             "origem": "dal",
-            "tempo_execucao": "0.000192",
+            "tempo_execucao": "0.000057",
             "tamanho": 87
         },
         {
             "algoritmo": "BFS",
             "origem": "abq",
-            "tempo_execucao": "0.000100",
+            "tempo_execucao": "0.000052",
             "tamanho": 96
         },
         {
             "algoritmo": "BFS",
             "origem": "dfw",
-            "tempo_execucao": "0.000083",
+            "tempo_execucao": "0.000039",
             "tamanho": 87
         },
         {
             "algoritmo": "DFS",
             "origem": "dal",
-            "tempo_execucao": "0.075102",
+            "tempo_execucao": "0.033747",
             "tamanho": 87
         },
         {
             "algoritmo": "DFS",
             "origem": "abq",
-            "tempo_execucao": "0.091666",
+            "tempo_execucao": "0.044133",
             "tamanho": 96
         },
         {
             "algoritmo": "DFS",
             "origem": "dfw",
-            "tempo_execucao": "0.070646",
+            "tempo_execucao": "0.032868",
             "tamanho": 87
         },
         {
             "algoritmo": "Dijkstra",
-            "origem": "dal",
-            "destino": "rdm",
-            "tempo_execucao": "0.000303",
-            "custo_total": 2497.0
-        },
-        {
-            "algoritmo": "Dijkstra",
-            "origem": "abq",
-            "destino": "rdm",
-            "tempo_execucao": "0.000215",
-            "custo_total": 2933.0
-        },
-        {
-            "algoritmo": "Dijkstra",
             "origem": "dfw",
-            "destino": "rdm",
-            "tempo_execucao": "0.000173",
-            "custo_total": 2497.0
+            "destino": "mia",
+            "tempo_execucao": "0.000154s",
+            "custo_total": 1121.0
+        },
+        {
+            "algoritmo": "Dijkstra",
+            "origem": "lax",
+            "destino": "ord",
+            "tempo_execucao": "0.000133s",
+            "custo_total": 9223372036854775807
+        },
+        {
+            "algoritmo": "Dijkstra",
+            "origem": "bos",
+            "destino": "sea",
+            "tempo_execucao": "0.000134s",
+            "custo_total": 2496.0
         },
         {
             "algoritmo": "Dijkstra",
             "origem": "phx",
-            "destino": "rdm",
-            "tempo_execucao": "0.000107",
-            "custo_total": 2882.0
+            "destino": "den",
+            "tempo_execucao": "0.000058s",
+            "custo_total": 9223372036854775807
         },
         {
             "algoritmo": "Dijkstra",
-            "origem": "bwi",
-            "destino": "rdm",
-            "tempo_execucao": "0.000088",
-            "custo_total": 883.0
+            "origem": "atl",
+            "destino": "iah",
+            "tempo_execucao": "0.000154s",
+            "custo_total": 696.0
+        },
+        {
+            "algoritmo": "Bellman-Ford",
+            "caso": "Dataset Real",
+            "origem": "dal",
+            "tempo_execucao": "0.015189s",
+            "status_validacao": "OK"
+        },
+        {
+            "algoritmo": "Bellman-Ford",
+            "caso": "Dataset Real",
+            "origem": "abq",
+            "tempo_execucao": "0.017235s",
+            "status_validacao": "OK"
+        },
+        {
+            "algoritmo": "Bellman-Ford",
+            "caso": "Dataset Real",
+            "origem": "dfw",
+            "tempo_execucao": "0.015720s",
+            "status_validacao": "OK"
         },
         {
             "algoritmo": "Bellman-Ford",
             "caso": "Peso Negativo (Sem Ciclo)",
-            "tempo_execucao": "0.000007",
+            "tempo_execucao": "0.000008",
             "status_validacao": "OK"
         },
         {
             "algoritmo": "Bellman-Ford",
             "caso": "Ciclo Negativo",
-            "tempo_execucao": "0.000004",
+            "tempo_execucao": "0.000003",
             "status_validacao": "OK"
         }
     ]

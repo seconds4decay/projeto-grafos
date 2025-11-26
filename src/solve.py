@@ -451,66 +451,95 @@ def executar_metrica_desempenho(lista_adj):
     
     vertices = list(lista_adj.keys())
     
-    # BFS/DFS a partir de >= 3 fontes distintas
-    fontes_bfs_dfs = vertices[:3] if len(vertices) >= 3 else vertices
+    # Escolhemos uma amostragem de 3 fontes para o BFS/DFS/Bellman Ford
+    fontes_algoritmos = vertices[:3] if len(vertices) >= 3 else vertices
 
-    # Dijkstra com pesos >= 0 (>= 5 pares origem-destino)
-    fontes_dijkstra = vertices[:5] if len(vertices) >= 5 else vertices
-    
-    # Para o Dijkstra, defini o último vértice da lista
-    destino_dijkstra = vertices[-1] if vertices else None
+    # Escolhemos uma amostragem de 5 fontes para o Dijkstra
+    pares_dijkstra = [
+        ("dfw", "mia"),
+        ("lax", "ord"),
+        ("bos", "sea"),
+        ("phx", "den"),
+        ("atl", "iah")
+    ]
 
-    print("\n--- Iniciando Comparação de Desempenho dos Algoritmos ---")
+    print("\nIniciando Comparação de Desempenho dos Algoritmos\n ")
 
-    # 1. Medindo o algoritmo BFS 
-    print(f"Rodando BFS para {len(fontes_bfs_dfs)} fontes.")
-    for fonte in fontes_bfs_dfs:
+    # 1. Medindo BFS 
+    print(f"Rodando BFS com {len(fontes_algoritmos)} fontes.")
+    for fonte in fontes_algoritmos:
         inicio = time.perf_counter()
-        res = bfs(lista_adj, fonte)
+        aux = bfs(lista_adj, fonte)
         fim = time.perf_counter()
         
         report["resultados"].append({
             "algoritmo": "BFS",
             "origem": fonte,
             "tempo_execucao": f"{fim - inicio:.6f}",
-            "tamanho": len(res)
+            "tamanho": len(aux)
         })
 
-    # 2. Medindo o algoritmo DFS 
-    print(f"Rodando DFS para {len(fontes_bfs_dfs)} fontes.")
-    for fonte in fontes_bfs_dfs:
+    # 2. Medindo DFS 
+    print(f"Rodando DFS com {len(fontes_algoritmos)} fontes.")
+    for fonte in fontes_algoritmos:
         inicio = time.perf_counter()
-        res = dfs(lista_adj, fonte)
+        aux = dfs(lista_adj, fonte)
         fim = time.perf_counter()
         
         report["resultados"].append({
             "algoritmo": "DFS",
             "origem": fonte,
             "tempo_execucao": f"{fim - inicio:.6f}",
-            "tamanho": len(res)
+            "tamanho": len(aux)
         })
 
-    # 3. Medindo o algoritmo Dijkstra
-    if destino_dijkstra:
-        print(f"Rodando Dijkstra para {len(fontes_dijkstra)} fontes.")
-        for fonte in fontes_dijkstra:
+    # 3. Medindo Dijkstra
+    for origem, destino in pares_dijkstra:
+        if origem in lista_adj and destino in vertices: 
             inicio = time.perf_counter()
-            res = dijkstra_path(lista_adj, fonte, destino_dijkstra) 
+            aux = dijkstra_path(lista_adj, origem, destino) 
             fim = time.perf_counter()
             
-            # Dijkstra vai retornar (custo, caminho) ou -1/infinito
-            custo = res[0] if isinstance(res, tuple) else res
+            # Dijkstra vai retornar (custo, caminho) ou infinito se nao houver caminhos
+            custo = aux[0] if isinstance(aux, tuple) else aux
             
             report["resultados"].append({
                 "algoritmo": "Dijkstra",
-                "origem": fonte,
-                "destino": destino_dijkstra,
-                "tempo_execucao": f"{fim - inicio:.6f}",
+                "origem": origem,
+                "destino": destino,
+                "tempo_execucao": f"{fim - inicio:.6f}s",
                 "custo_total": custo
             })
 
-    # 4. Medindo Bellman-Ford
-    print("Executando Bellman-Ford (Casos de Controle).")
+
+    # 4. Medindo Bellman-Ford 
+    
+    # Convertendo as listas para um formato que o algoritmo aceite
+    lista_vertices_bf = list(lista_adj.keys())
+    lista_arestas_bf = []
+    for i, vizinhos in lista_adj.items():
+        for j, peso in vizinhos:
+            lista_arestas_bf.append((i, j, peso))
+            
+    # 4.1 Bellman-Ford com o dataset
+    print(f"Rodando Bellman-Ford com {len(fontes_algoritmos)} fontes.")
+    for fonte in fontes_algoritmos:
+        inicio = time.perf_counter()
+        # Passamos as listas convertidas
+        aux_bf = bellman_ford(lista_vertices_bf, lista_arestas_bf, fonte)
+        fim = time.perf_counter()
+        
+        # So para validar se voltou certo com o dicionario
+        status = "OK" if isinstance(aux_bf, dict) else "Erro/Ciclo"
+        
+        report["resultados"].append({
+            "algoritmo": "Bellman-Ford",
+            "caso": "Dataset Real",
+            "origem": fonte,
+            "tempo_execucao": f"{fim - inicio:.6f}s",
+            "status_validacao": status
+        })
+    print("Rodando Bellman-Ford com os casos de controle.")
     
     # Caso 1: Peso Negativo sem ciclo negativo 
     v_bf1 = ["dfw", "mia", "ord"]
@@ -524,12 +553,12 @@ def executar_metrica_desempenho(lista_adj):
     # Menor caminho é 50.
     
     inicio = time.perf_counter()
-    res_bf1 = bellman_ford(v_bf1, e_bf1, "dfw")
+    aux_bf1 = bellman_ford(v_bf1, e_bf1, "dfw")
     fim = time.perf_counter()
     
     # Verificando se calculou (retornou dict) e se o valor pra 'ord' esta correto (50)
     correto = "FALHA"
-    if isinstance(res_bf1, dict) and res_bf1.get("ord") == 50:
+    if isinstance(aux_bf1, dict) and aux_bf1.get("ord") == 50:
         correto = "OK"
 
     report["resultados"].append({
@@ -549,15 +578,15 @@ def executar_metrica_desempenho(lista_adj):
     # Ciclo: 3 - 10 + 2 = -5
     
     inicio = time.perf_counter()
-    res_bf2 = bellman_ford(v_bf2, e_bf2, "lax")
+    aux_bf2 = bellman_ford(v_bf2, e_bf2, "lax")
     fim = time.perf_counter()
     
-    # Deve retornar a flag (no caso -1) indicando ciclo negativo
+    # Deve retornar -1 indicando ciclo negativo
     report["resultados"].append({
         "algoritmo": "Bellman-Ford",
         "caso": "Ciclo Negativo",
         "tempo_execucao": f"{fim - inicio:.6f}",
-        "status_validacao": "OK" if res_bf2 == -1 else "FALHA"
+        "status_validacao": "OK" if aux_bf2 == -1 else "FALHA"
     })
 
     # Salvar JSON final
