@@ -140,7 +140,7 @@ def visualizar_grafo(
 
         intensidade_cor = int(255 * (grau - min_grau) / (max_grau - min_grau)) if max_grau > min_grau else 0
         cor = f"rgb({255 - intensidade_cor}, {intensidade_cor}, 100)"
-        tamanho = 20
+        tamanho = 40
 
         tooltip = f"Grau: {grau} | Densidade Ego: {dens} | Microrregião: {micro}"
         net.add_node(
@@ -208,7 +208,7 @@ def visualizar_grafo(
             Object.values(network.body.nodes).forEach(n => {{
                 n.setOptions({{
                     color: n.options.originalColor,
-                    size: 20
+                    size: 40
                 }});
             }});
 
@@ -239,7 +239,7 @@ def visualizar_grafo(
             // destaca nós
             p.forEach(n => {{
                 let node = network.body.nodes[n];
-                node.setOptions({{ color:"purple", size:35 }});
+                node.setOptions({{ color:"purple", size:45 }});
             }});
 
             // destaca arestas

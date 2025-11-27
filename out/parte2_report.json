@@ -4,105 +4,105 @@
         {
             "algoritmo": "BFS",
             "origem": "dal",
-            "tempo_execucao": "0.000057",
+            "tempo_execucao": "0.000241",
             "tamanho": 87
         },
         {
             "algoritmo": "BFS",
             "origem": "abq",
-            "tempo_execucao": "0.000052",
+            "tempo_execucao": "0.000271",
             "tamanho": 96
         },
         {
             "algoritmo": "BFS",
             "origem": "dfw",
-            "tempo_execucao": "0.000039",
+            "tempo_execucao": "0.000190",
             "tamanho": 87
         },
         {
             "algoritmo": "DFS",
             "origem": "dal",
-            "tempo_execucao": "0.033747",
+            "tempo_execucao": "0.189177",
             "tamanho": 87
         },
         {
             "algoritmo": "DFS",
             "origem": "abq",
-            "tempo_execucao": "0.044133",
+            "tempo_execucao": "0.237921",
             "tamanho": 96
         },
         {
             "algoritmo": "DFS",
             "origem": "dfw",
-            "tempo_execucao": "0.032868",
+            "tempo_execucao": "0.164967",
             "tamanho": 87
         },
         {
             "algoritmo": "Dijkstra",
             "origem": "dfw",
             "destino": "mia",
-            "tempo_execucao": "0.000154s",
+            "tempo_execucao": "0.000432s",
             "custo_total": 1121.0
         },
         {
             "algoritmo": "Dijkstra",
             "origem": "lax",
             "destino": "ord",
-            "tempo_execucao": "0.000133s",
+            "tempo_execucao": "0.000213s",
             "custo_total": 9223372036854775807
         },
         {
             "algoritmo": "Dijkstra",
             "origem": "bos",
             "destino": "sea",
-            "tempo_execucao": "0.000134s",
+            "tempo_execucao": "0.000305s",
             "custo_total": 2496.0
         },
         {
             "algoritmo": "Dijkstra",
             "origem": "phx",
             "destino": "den",
-            "tempo_execucao": "0.000058s",
+            "tempo_execucao": "0.000270s",
             "custo_total": 9223372036854775807
         },
         {
             "algoritmo": "Dijkstra",
             "origem": "atl",
             "destino": "iah",
-            "tempo_execucao": "0.000154s",
+            "tempo_execucao": "0.000750s",
             "custo_total": 696.0
         },
         {
             "algoritmo": "Bellman-Ford",
             "caso": "Dataset Real",
             "origem": "dal",
-            "tempo_execucao": "0.015189s",
+            "tempo_execucao": "0.067137s",
             "status_validacao": "OK"
         },
         {
             "algoritmo": "Bellman-Ford",
             "caso": "Dataset Real",
             "origem": "abq",
-            "tempo_execucao": "0.017235s",
+            "tempo_execucao": "0.068815s",
             "status_validacao": "OK"
         },
         {
             "algoritmo": "Bellman-Ford",
             "caso": "Dataset Real",
             "origem": "dfw",
-            "tempo_execucao": "0.015720s",
+            "tempo_execucao": "0.066185s",
             "status_validacao": "OK"
         },
         {
             "algoritmo": "Bellman-Ford",
             "caso": "Peso Negativo (Sem Ciclo)",
-            "tempo_execucao": "0.000008",
+            "tempo_execucao": "0.000013",
             "status_validacao": "OK"
         },
         {
             "algoritmo": "Bellman-Ford",
             "caso": "Ciclo Negativo",
-            "tempo_execucao": "0.000003",
+            "tempo_execucao": "0.000008",
             "status_validacao": "OK"
         }
     ]

@@ -186,6 +186,7 @@ def ego_network_metricas(lista_adjacencia = carregar_lista_adjacencia()):
         # calcula densidade da ego network
         if ordem_ego > 1:
             densidade_ego = tamanho_ego / (ordem_ego * (ordem_ego - 1) / 2)
+            densidade_ego /= 2
         else:
             densidade_ego = 0
 
