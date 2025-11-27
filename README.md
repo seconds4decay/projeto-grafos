@@ -39,20 +39,30 @@ projeto-grafos/
 ## Como Executar
 
 ### 1. Criar o ambiente virtual
-`py -m venv venv`
+```
+py -m venv venv
+```
 
 ### 2. Ativar o ambiente virtual
 Windows:
-`.\venv\Scripts\activate`
+```
+.\venv\Scripts\activate
+```
 
 ### 3. Instalar os requisitos
-`pip install -r requirements.txt`
+```
+pip install -r requirements.txt
+```
 
 ### 4. Gerar todos os arquivos dentro de /out
 Execute na raiz do projeto:
-`python -m src.cli out`
+```
+python -m src.cli out
+```
+
 
 Ou, se preferir, execute esses arquivos manualmente para obter o mesmo resultado:
-
-`python src/solve.py`  
-`python src/viz.py`
+```
+python src/solve.py 
+python src/viz.py
+```
