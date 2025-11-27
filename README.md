@@ -1,5 +1,3 @@
-# projetoGrafos
-
 # Projeto de Grafos — Grupo 6  
 
 ## Equipe
@@ -10,6 +8,7 @@
 
 ## Estrutura de Arquivos
 
+```
 projeto-grafos/
 ├─ README.md
 ├─ requirements.txt
@@ -35,6 +34,7 @@ projeto-grafos/
 │  ├─ test_dfs.py
 │  ├─ test_dijkstra.py
 │  └─ test_bellman_ford.py
+```
 
 ## Como Executar
 
