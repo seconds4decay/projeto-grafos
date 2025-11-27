@@ -34,6 +34,7 @@ projeto-grafos/
 │  ├─ test_dfs.py
 │  ├─ test_dijkstra.py
 │  └─ test_bellman_ford.py
+└─ relatorio.pdf
 ```
 
 ## Como Executar
