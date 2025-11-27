@@ -36,7 +36,7 @@ projeto-grafos/
 │  ├─ test_dijkstra.py
 │  └─ test_bellman_ford.py
 
-## ▶Como Executar
+## Como Executar
 
 ### 1. Criar o ambiente virtual
 `py -m venv venv`
